@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var localNpm = require('local-npm');
+var localNpm = require('fee-local-npm');
 var yaml = require('js-yaml');
 
 var configFile = path.resolve(__dirname, '../config.yml');

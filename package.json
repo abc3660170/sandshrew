@@ -25,7 +25,7 @@
     "express": "^4.17.1",
     "http-errors": "~1.6.3",
     "js-yaml": "^4.0.0",
-    "local-npm": "^2.2.2",
+    "fee-local-npm": "^2.2.2",
     "morgan": "~1.9.1"
   },
   "engines": {
