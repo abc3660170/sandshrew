@@ -2,36 +2,71 @@
   "name": "npm-front",
   "version": "1.0.0",
   "description": "npm packages grab tool",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./build/bin/www",
-    "start:ln": "node build/bin/shell.js start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/abc3660170/npm-front.git"
-  },
   "author": "tchen",
-  "license": "ISC",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "start": "node ./build/bin/www",
+    "start:ln": "node build/bin/shell.js start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "axios": "~0.21.1",
+    "cookie-parser": "~1.4.5",
+    "core-js": "~3.8.3",
+    "debug": "~2.6.9",
+    "express": "~4.17.1",
+    "fee-local-npm": "~2.2.2",
+    "http-errors": "~1.6.3",
+    "js-yaml": "~4.0.0",
+    "morgan": "~1.9.1",
+    "normalize.css": "~8.0.1",
+    "vue": "^3.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "~14.14.22",
+    "@vue/cli-plugin-babel": "~4.5.11",
+    "@vue/cli-plugin-eslint": "~4.5.11",
+    "@vue/cli-service": "~4.5.11",
+    "@vue/compiler-sfc": "~3.0.5",
+    "babel-eslint": "~10.1.0",
+    "eslint": "~6.8.0",
+    "eslint-plugin-vue": "~7.5.0",
+    "sass": "~1.32.5",
+    "sass-loader": "~10.1.1",
+    "vue-loader-v16": "~16.0.0-beta.5.4"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
   "bugs": {
     "url": "https://github.com/abc3660170/npm-front/issues"
-  },
-  "homepage": "https://github.com/abc3660170/npm-front#readme",
-  "dependencies": {
-    "axios": "^0.21.1",
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "^4.17.1",
-    "http-errors": "~1.6.3",
-    "js-yaml": "^4.0.0",
-    "fee-local-npm": "^2.2.2",
-    "morgan": "~1.9.1"
   },
   "engines": {
     "node": ">=10.15.0"
   },
-  "devDependencies": {
-    "@types/node": "^14.14.22"
+  "homepage": "https://github.com/abc3660170/npm-front#readme",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abc3660170/npm-front.git"
   }
 }
