@@ -1,26 +1,40 @@
 <template>
-<ul>
-    <li v-for="(brief, index) in list" :key="index">
-        <a @click="handleClick">{{ brief.name }}</a>
-    </li>
-</ul>
+<div class="packageDetail">
+    <div>
+        <label>包名：</label>
+        {{name}}
+    </div>
+    <div>
+        <label>作者：</label>
+        {{author.name}}
+    </div>
+    <div>
+        <label>版本：</label>
+        <select :value="defaultVersion">
+            <option v-for="(version, index) in sortedVersions" :key="index" :value="version">
+                {{ version }}
+            </option>
+        </select>
+        {{author.name}}
+    </div>
+</div>
 </template>
 
 <script>
 export default {
   name: 'PackageDetail',
   props: {
-    list: {
-        type: Array,
-        default(){
-            return []
-        }
-    }
+    name: String,
+    author: Object,
+    versions: Array,
+    distTags: Object
   },
-  methods:{
-      handleClick(ev){
-          const name = encodeURIComponent(ev.target.innerText)
-          this.$emit('view-detail', name);
+  computed:{
+      sortedVersions(){
+          return Object.keys(this.versions).reverse()
+      },
+      defaultVersion(){
+          return this.distTags.latest;
       }
   }
 }

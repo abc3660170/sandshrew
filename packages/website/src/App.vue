@@ -1,32 +1,47 @@
 <template>
   <input type='text' @keyup="fetchPackageList">
-  <package-list :list="list" @view-detail="fetchPackage"></package-list>
+  <package-list :list="list" @view-detail="fetchPackage" v-if="!detail"></package-list>
+  <package-detail v-bind="detail" v-if="detail"></package-detail>
 </template>
 
 <script>
 import axios from "axios";
 import PackageList from "./components/PackageList";
+import PackageDetail from './components/PackageDetail';
+import debounce from "debounce";
 export default {
   name: 'App',
   data(){
     return {
-      list:[]
+      list:[],
+      detail:null
     }
   },
   components: {
-    PackageList
+    PackageList,
+    PackageDetail
   },
   methods:{
-     async fetchPackageList(ev){
+    async fetchPackageList(ev){
+         this.detail = null;
          const q = ev.target.value;
-         const response = await axios.get(`http://127.0.0.1:3000/npmjs/suggestions?q=${q}`);
-         this.list = response.data;
+         this.getSuggestion(q, (error, data) => {
+           this.list = data;
+         });
     },
     async fetchPackage(packageName){
           const response = await axios.get(`http://127.0.0.1:3000/npmjs/package/${packageName}/document`);
-          console.log(response.data)
-          return response.data;
+          this.detail = response.data;
     }
+  },
+  created(){
+    this.getSuggestion = debounce((q, callback) => {
+            axios.get(`http://127.0.0.1:3000/npmjs/suggestions?q=${q}`).then(response => {
+                callback(null, response.data)
+            }).catch(e => {
+              callback(e)
+            })
+    },400)
   }
 }
 </script>
