@@ -5,4 +5,6 @@ var yaml = require('js-yaml');
 
 var configFile = path.resolve(__dirname, '../config.yml');
 const doc = yaml.load(fs.readFileSync(configFile));
-localNpm(doc['local-npm']);
+const directory = path.resolve(__dirname,"../tmp/data");
+const options = Object.assign(doc['local-npm'],directory)
+localNpm(options);

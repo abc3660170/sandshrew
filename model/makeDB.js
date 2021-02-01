@@ -14,33 +14,32 @@ module.exports = async function(packageArr){
         throw new Error('不是数组，或者这是个空数组！');
     }
 
-    //const lastLocalNpm = app.locals.localNpm;
-
-    // if(lastLocalNpm){
-    //     await shutdownLocalNpm(lastLocalNpm);  
-    // }
+    const lastLocalNpm = app.locals.localNpm;
+    if(lastLocalNpm){
+        lastLocalNpm.kill();
+    }
 
     const workspace = path.resolve(__dirname, "../tmp");
     shelljs.rm('-rf', workspace);
     shelljs.mkdir(workspace);
+
+    shelljs.cd(workspace);
+    const localNpm = app.locals.localNpm = spawn('node',['local-npm.js'], {
+        cwd: path.resolve(__dirname, '../build')
+    });
+    localNpm.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+    });
+    localNpm.stderr.on('error', (data) => {
+        console.log(`stdout: ${data}`);
+    });
+
     shelljs.cd(workspace);
     shelljs.rm('-rf', "*");
     shelljs.mkdir('project');
     shelljs.cd('project');
     shelljs.exec("npm init -y");
-
-    shelljs.cd(workspace);
-    app.locals.localNpm = spawn('node',['local-npm.js'], {
-        cwd: path.resolve(__dirname, '../build')
-    });
+    const str = packageArr.join(" ");
+    shelljs.exec(`npm install ${str} --force --registry=http://localhost:5080/`);
+    localNpm.kill();
 }
-
-// function shutdownLocalNpm(app) {
-//     return new Promise((resolve, reject) => {
-//         const httpTerminator = createHttpTerminator({ server: app.server });
-//         httpTerminator.terminate();
-//         setTimeout(() => {
-//             resolve()
-//         },3000);
-//     })
-// }
