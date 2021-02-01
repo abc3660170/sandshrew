@@ -10,13 +10,14 @@
     </div>
     <div>
         <label>版本：</label>
-        <select :value="defaultVersion">
+        <select v-model="version">
             <option v-for="(version, index) in sortedVersions" :key="index" :value="version">
                 {{ version }}
             </option>
         </select>
         {{author.name}}
     </div>
+    <button @click="handlePick">选择此版本</button>
 </div>
 </template>
 
@@ -29,12 +30,19 @@ export default {
     versions: Array,
     distTags: Object
   },
+  data(){
+      return {
+          version: this.distTags.latest
+      }
+  },
   computed:{
       sortedVersions(){
           return Object.keys(this.versions).reverse()
-      },
-      defaultVersion(){
-          return this.distTags.latest;
+      }
+  },
+  methods:{
+      handlePick(){
+          this.$emit('pick', `${this.name}@${this.version}`)
       }
   }
 }

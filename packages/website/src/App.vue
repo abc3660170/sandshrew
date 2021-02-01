@@ -1,8 +1,13 @@
 <template>
   <input type='text' @keyup="fetchPackageList" v-model="keyword">
+  <div>
+    <label>已选择的包：</label>
+    {{ pcikedHtml }}
+    <button v-if="picked.size > 0" @click="download">下载</button>
+  </div>
   <package-list :list="list" @view-detail="fetchPackage" v-if="!detail"></package-list>
   <button v-if="detail" @click="handleReturn">返回</button>
-  <package-detail v-bind="detail" v-if="detail"></package-detail>
+  <package-detail v-bind="detail" v-if="detail" @pick="handlePicked"></package-detail>
 </template>
 
 <script>
@@ -16,7 +21,8 @@ export default {
     return {
       list:[],
       detail:null,
-      keyword:""
+      keyword:"",
+      picked:new Set(['express@4.17.1'])
     }
   },
   components: {
@@ -42,6 +48,23 @@ export default {
       this.detail = null
       this.keyword = "";
       this.list = []
+    },
+    handlePicked(val){
+      this.picked.add(val);
+      this.handleReturn();
+    },
+    download(){
+      const data = Array.from(this.picked);
+      axios.post('http://127.0.0.1:3000/npmjs/download', data, {
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      })
+    }
+  },
+  computed:{
+    pcikedHtml(){
+      return Array.from(this.picked).join(',');
     }
   },
   created(){

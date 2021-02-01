@@ -1,15 +1,7 @@
 var axios = require("axios");
 var express = require("express");
-// module.exports.suggestions = (keyword) => {
-//     return axios.get(`https://www.npmjs.com/search/suggestions?q=${keyword}`);
-// }
-
-// module.exports.getPackageDoc = (packageName) => {
-//     return axios.get(`https://registry.npmjs.org/${packageName}`);
-// }
-
-var router = express.Router()
-
+var router = express.Router();
+var makeDB = require('../model/makeDB');
 /* GET users listing. */
 router.get('/suggestions', async function(req, res, next) {
     try {
@@ -29,6 +21,12 @@ router.get('/package/:name/document', async function(req, res, next) {
     } catch (error) {
         next(error)
     }  
+});
+
+router.post('/download', async function(req, res, next) {
+     const packages = req.body;
+     makeDB(packages)
+     res.end()
 });
 
 module.exports = router;

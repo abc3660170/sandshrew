@@ -4,7 +4,7 @@ local-npm: # local-npm 的启动配置
   remote: https://registry.npmjs.org
   remoteSkim: https://replicate.npmjs.com
   url: http://127.0.0.1:5080
-  directory: ./data
+  directory: ./tmp/data
 
 app:
   port: 2222
