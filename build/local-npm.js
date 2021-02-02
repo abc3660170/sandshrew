@@ -1,10 +1,8 @@
-var fs = require('fs');
 var path = require('path');
 var localNpm = require('fee-local-npm');
-var yaml = require('js-yaml');
+var { getLocalNpmConfig } = require('../utils/utils');
 
-var configFile = path.resolve(__dirname, '../config.yml');
-const doc = yaml.load(fs.readFileSync(configFile));
+const localNpmConfig = getLocalNpmConfig();
 const directory = path.resolve(__dirname,"../tmp/data");
-const options = Object.assign(doc['local-npm'],directory)
+const options = Object.assign(localNpmConfig, {directory})
 localNpm(options);

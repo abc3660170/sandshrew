@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var npmjsRouter = require('./api/npmjs.js');
+const ejs = require('ejs');
 
 var app = express();
 
@@ -13,19 +14,23 @@ app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "*");
   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
   res.header("X-Powered-By",' 3.2.1')
-  res.header("Content-Type", "application/json;charset=utf-8");
   next();
 });
 
 app.use(logger('dev'));
-app.engine('html', require('ejs').renderFile)
+
+app.engine('html', ejs.__express);
+app.set('views', path.join(__dirname, './dist'));
+app.set('view engine', 'html');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/dist')));
 
 app.get('/', function(req, res){
-  res.render(__dirname + '/dist/index.html');
+  res.set('Content-Type', 'text/html');
+  console.log(111111111)
+  res.render('index',{});
 })
 
 app.use('/npmjs', npmjsRouter);

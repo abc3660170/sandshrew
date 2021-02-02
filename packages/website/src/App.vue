@@ -53,13 +53,28 @@ export default {
       this.picked.add(val);
       this.handleReturn();
     },
-    download(){
+    zipFile(){
+      const date = new Date().toISOString()
+      const legalDateStr = date.replace(/[^0-9]*/g,"");
+      return `to内网陈涛${legalDateStr}.zip`
+    },
+    async download(){
+      alert('已经开始下载了，请不用关闭此页面！')
       const data = Array.from(this.picked);
-      axios.post('http://127.0.0.1:3000/npmjs/download', data, {
+      this.picked = new Set();
+      const response = await axios.post('http://127.0.0.1:3000/npmjs/download', data, {
+        responseType: 'blob',
         headers: {
           'Content-Type': 'application/json;charset=UTF-8'
         }
       })
+      const url = URL.createObjectURL(new Blob([response.data],{type:'application/zip'}));
+      const link = document.createElement('a');
+      link.href = url
+      link.download = this.zipFile()
+      document.body.appendChild(link);
+      link.click();
+      URL.revokeObjectURL(url);
     }
   },
   computed:{

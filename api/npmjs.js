@@ -2,6 +2,7 @@ var axios = require("axios");
 var express = require("express");
 var router = express.Router();
 var makeDB = require('../model/makeDB');
+var app = express();
 /* GET users listing. */
 router.get('/suggestions', async function(req, res, next) {
     try {
@@ -24,9 +25,17 @@ router.get('/package/:name/document', async function(req, res, next) {
 });
 
 router.post('/download', async function(req, res, next) {
-     const packages = req.body;
-     makeDB(packages)
-     res.end()
+    //if(app.locals.downloading){
+        //console.log('============================')
+        //res.status(226).send('有人再用，你先等等');
+    // } else {
+        app.locals.downloading = true;
+        const packages = req.body;
+        const zipFile = makeDB(packages);
+        res.download(zipFile,() => {
+            app.locals.downloading = false;
+        });
+    // }
 });
 
 module.exports = router;
