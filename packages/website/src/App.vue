@@ -22,7 +22,7 @@ export default {
       list:[],
       detail:null,
       keyword:"",
-      picked:new Set(['express@4.17.1'])
+      picked:new Set()
     }
   },
   components: {
@@ -41,7 +41,7 @@ export default {
          });
     },
     async fetchPackage(packageName){
-          const response = await axios.get(`http://127.0.0.1:3000/npmjs/package/${packageName}/document`);
+          const response = await axios.get(`/npmjs/package/${packageName}/document`);
           this.detail = response.data;
     },
     handleReturn(){
@@ -62,7 +62,7 @@ export default {
       alert('已经开始下载了，请不用关闭此页面！')
       const data = Array.from(this.picked);
       this.picked = new Set();
-      const response = await axios.post('http://127.0.0.1:3000/npmjs/download', data, {
+      const response = await axios.post('/npmjs/download', data, {
         responseType: 'blob',
         headers: {
           'Content-Type': 'application/json;charset=UTF-8'
@@ -84,7 +84,7 @@ export default {
   },
   created(){
     this.getSuggestion = debounce((q, callback) => {
-            axios.get(`http://127.0.0.1:3000/npmjs/suggestions?q=${q}`).then(response => {
+            axios.get(`/npmjs/suggestions?q=${q}`).then(response => {
                 callback(null, response.data)
             }).catch(e => {
               callback(e)
