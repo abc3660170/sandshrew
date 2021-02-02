@@ -6,7 +6,7 @@
     </div>
     <div>
         <label>作者：</label>
-        {{author.name}}
+        {{author?.name && '无'}}
     </div>
     <div>
         <label>版本：</label>
@@ -15,7 +15,6 @@
                 {{ version }}
             </option>
         </select>
-        {{author.name}}
     </div>
     <button @click="handlePick">选择此版本</button>
 </div>
