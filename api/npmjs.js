@@ -31,7 +31,7 @@ router.post('/download', async function(req, res, next) {
     // } else {
         app.locals.downloading = true;
         const packages = req.body;
-        const zipFile = makeDB(packages);
+        const zipFile = await makeDB(packages);
         res.download(zipFile,() => {
             app.locals.downloading = false;
         });
