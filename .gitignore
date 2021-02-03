@@ -106,3 +106,4 @@ dist
 package-lock.json
 data
 tmp
+.DS_Store
