@@ -22,15 +22,15 @@ module.exports = async function(packageArr){
         lastLocalNpm.kill();
     }
     const workspace = path.resolve(__dirname, "../tmp");
-    shelljs.rm('-rf', workspace);
-    shelljs.mkdir(workspace);
+    shelljs.rm('-rf', `${workspace}/*`);
+    //shelljs.mkdir(workspace);
 
     
     const localNpm = await startLocalNpm();
 
     
     // 创建临时项目开始抓取包
-    shelljs.cd(workspace);
+    //shelljs.cd(workspace);
     shelljs.mkdir('project');
     shelljs.cd('project');
     shelljs.exec("npm init -y");
