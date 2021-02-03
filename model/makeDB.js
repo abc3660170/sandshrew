@@ -22,8 +22,8 @@ module.exports = async function(packageArr){
         lastLocalNpm.kill();
     }
     const workspace = path.resolve(__dirname, "../tmp");
+    shelljs.mkdir(workspace);
     shelljs.rm('-rf', `${workspace}/*`);
-    //shelljs.mkdir(workspace);
 
     
     const localNpm = await startLocalNpm();
