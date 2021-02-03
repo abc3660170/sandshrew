@@ -38,7 +38,6 @@ module.exports = function(packageArr){
 
     // 创建临时项目开始抓取包
     shelljs.cd(workspace);
-    shelljs.rm('-rf', "*");
     shelljs.mkdir('project');
     shelljs.cd('project');
     shelljs.exec("npm init -y");
