@@ -9,7 +9,7 @@
     "lint": "vue-cli-service lint",
     "start": "npm run build && npm run start:service",
     "dev": "run-p dev:service serve",
-    "dev:service": "node ./build/bin/www",
+    "dev:service": "nodemon ./build/bin/www",
     "start:service": "node ./build/bin/www",
     "start:ln": "node build/bin/shell.js start",
     "test": "echo \"Error: no test specified\" && exit 1"

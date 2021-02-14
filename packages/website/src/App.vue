@@ -41,8 +41,12 @@ export default {
          });
     },
     async fetchPackage(packageName){
-          const response = await axios.get(`/npmjs/package/${packageName}/document`);
+          const response = await this.getAxios().get(`/npmjs/package/${packageName}/document`);
           this.detail = response.data;
+    },
+    async handleTest(){
+          const response = await this.getAxios().get(`/npmjs/test`);
+          console.log(response.data)
     },
     handleReturn(){
       this.detail = null
@@ -62,7 +66,7 @@ export default {
       alert('已经开始下载了，请不用关闭此页面！')
       const data = Array.from(this.picked);
       this.picked = new Set();
-      const response = await axios.post('/npmjs/download', data, {
+      const response = await this.getAxios().post('/npmjs/download', data, {
         responseType: 'blob',
         headers: {
           'Content-Type': 'application/json;charset=UTF-8'
@@ -75,6 +79,11 @@ export default {
       document.body.appendChild(link);
       link.click();
       URL.revokeObjectURL(url);
+    },
+    getAxios(){
+      return axios.create({
+        baseURL:'http://127.0.0.1:3000'
+      })
     }
   },
   computed:{
@@ -82,14 +91,16 @@ export default {
       return Array.from(this.picked).join(',');
     }
   },
-  created(){
+  async created(){
     this.getSuggestion = debounce((q, callback) => {
-            axios.get(`/npmjs/suggestions?q=${q}`).then(response => {
+            this.getAxios().get(`/npmjs/suggestions?q=${q}`).then(response => {
                 callback(null, response.data)
             }).catch(e => {
               callback(e)
             })
     },400)
+
+    await this.handleTest();
   }
 }
 </script>

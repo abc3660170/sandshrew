@@ -3,6 +3,13 @@ var express = require("express");
 var router = express.Router();
 var makeDB = require('../model/makeDB');
 var app = express();
+
+router.get('/test', async function(req, res, next) {
+    setTimeout(() => {
+        res.end('成功实现了长连接！')
+    },2*61*1000);
+});
+
 /* GET users listing. */
 router.get('/suggestions', async function(req, res, next) {
     try {
