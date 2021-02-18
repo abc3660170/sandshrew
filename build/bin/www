@@ -20,8 +20,9 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-server.timeout = 0;
-console.log(server);
+
+// 对格式化一下server的参数
+server.timeout = 0;    // 不同架构的timeout不一致
 
 /**
  * Listen on provided port, on all network interfaces.

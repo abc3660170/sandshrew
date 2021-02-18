@@ -44,10 +44,7 @@ export default {
           const response = await this.getAxios().get(`/npmjs/package/${packageName}/document`);
           this.detail = response.data;
     },
-    async handleTest(){
-          const response = await this.getAxios().get(`/npmjs/test`);
-          console.log(response.data)
-    },
+
     handleReturn(){
       this.detail = null
       this.keyword = "";
@@ -72,13 +69,19 @@ export default {
           'Content-Type': 'application/json;charset=UTF-8'
         }
       })
-      const url = URL.createObjectURL(new Blob([response.data],{type:'application/zip'}));
-      const link = document.createElement('a');
-      link.href = url
-      link.download = this.zipFile()
-      document.body.appendChild(link);
-      link.click();
-      URL.revokeObjectURL(url);
+      console.log(response)
+      if(response.status === 226){
+        alert('有人在用，你先等等');
+      } else if(response.status === 200){
+        const url = URL.createObjectURL(new Blob([response.data],{type:'application/zip'}));
+        const link = document.createElement('a');
+        link.href = url
+        link.download = this.zipFile()
+        document.body.appendChild(link);
+        link.click();
+        URL.revokeObjectURL(url);
+      } 
+      
     },
     getAxios(){
       return axios.create({
@@ -99,8 +102,6 @@ export default {
               callback(e)
             })
     },400)
-
-    await this.handleTest();
   }
 }
 </script>

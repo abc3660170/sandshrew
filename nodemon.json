@@ -1,4 +1,4 @@
 {
-    "ignore": ["tmp/*"],
+    "ignore": ["tmp/*", "dist/*"],
     "delay": "2500"
 }

@@ -4,12 +4,6 @@ var router = express.Router();
 var makeDB = require('../model/makeDB');
 var app = express();
 
-router.get('/test', async function(req, res, next) {
-    setTimeout(() => {
-        res.end('成功实现了长连接！')
-    },2*61*1000);
-});
-
 /* GET users listing. */
 router.get('/suggestions', async function(req, res, next) {
     try {
@@ -32,17 +26,26 @@ router.get('/package/:name/document', async function(req, res, next) {
 });
 
 router.post('/download', async function(req, res, next) {
-    //if(app.locals.downloading){
-        //console.log('============================')
-        //res.status(226).send('有人再用，你先等等');
-    // } else {
+    req.on('aborted', () => {
+        // todo 撤销下载
+    })
+    if(app.locals.downloading){
+        res.status(226).end('有人在用你先等等')
+    } else {
         app.locals.downloading = true;
         const packages = req.body;
-        const zipFile = await makeDB(packages);
-        res.download(zipFile,() => {
+        try {
+            const zipFile = await makeDB(packages);
+            res.download(zipFile,() => {
+                app.locals.downloading = false;
+            });
+        } catch (error) {
             app.locals.downloading = false;
-        });
-    // }
+        }
+        
+    }
+
+    
 });
 
 module.exports = router;
