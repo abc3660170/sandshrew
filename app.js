@@ -29,16 +29,15 @@ app.use(express.static(path.join(__dirname, '/dist')));
 
 app.get('/', function(req, res){
   res.set('Content-Type', 'text/html');
-  console.log(111111111)
   res.render('index',{});
 })
 
 app.use('/npmjs', npmjsRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
 
 // error handler
 // app.use(function(err, req, res, next) {

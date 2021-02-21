@@ -2,11 +2,11 @@
 <div class="packageDetail">
     <div>
         <label>包名：</label>
-        {{name}}
+        {{modelValue.name}}
     </div>
     <div>
         <label>作者：</label>
-        {{author?.name && '无'}}
+        {{modelValue?.author?.name || '无'}}
     </div>
     <div>
         <label>版本：</label>
@@ -17,32 +17,44 @@
         </select>
     </div>
     <button @click="handlePick">选择此版本</button>
+    <button @click="handleReturn">返回</button>
 </div>
 </template>
 
 <script>
 export default {
   name: 'PackageDetail',
+
   props: {
-    name: String,
-    author: Object,
-    versions: Array,
-    distTags: Object
+    modelValue: {
+        type:Object
+    },
+    // name: String,
+    // author: Object,
+    // versions: Array,
+    // distTags: Object,
+
+  },
+  created(){
+    console.log(this.modelValue)
   },
   data(){
       return {
-          version: this.distTags.latest
+          version: this.modelValue['dist-tags'].latest
       }
   },
   computed:{
       sortedVersions(){
-          return Object.keys(this.versions).reverse()
+          return Object.keys(this.modelValue.versions).reverse()
       }
   },
   methods:{
       handlePick(){
-          this.$emit('pick', `${this.name}@${this.version}`)
-      }
+          this.$emit('pick', `${this.modelValue.name}@${this.version}`)
+      },
+      handleReturn() {
+        this.$emit('update:modelValue', null);
+    }
   }
 }
 </script>
