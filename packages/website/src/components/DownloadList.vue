@@ -20,12 +20,22 @@ export default {
     }
   },
   methods:{
-    zipFile() {
+    defaultZipFile() {
       const date = new Date().toISOString();
       const legalDateStr = date.replace(/[^0-9]*/g, "");
       return `to内网陈涛${legalDateStr}.zip`;
     },
+    async askForFileName(){
+      return await this.$prompt('请输入下载的文件名称', '提示', {
+          inputValue: this.defaultZipFile(),
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /(.+)\.zip$/,
+          inputErrorMessage: '文件名称格式不对'
+        })
+    },
     async download() {
+      const {value: zipFile} = await this.askForFileName();
       this.$emit('start-download');
       const data = Array.from(this.modelValue);
       const response = await this.getAxios().post("/npmjs/download", data, {
@@ -42,7 +52,7 @@ export default {
         );
         const link = document.createElement("a");
         link.href = url;
-        link.download = this.zipFile();
+        link.download = zipFile;
         document.body.appendChild(link);
         link.click();
         URL.revokeObjectURL(url);

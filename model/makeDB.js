@@ -82,19 +82,19 @@ async function pull(cwd, packageArr){
 
 // 格式化目录配置
 async function initProjectConfig(cwd){
-    return spawnWrap("npm", ['init','-y'], { cwd })
+    return spawnWrap(/^win/.test(process.platform) ? "npm.cmd" : "npm", ['init','-y'], { cwd })
 }
 
 // 清理npm缓存目录
 async function cleanCache(){
-    return spawnWrap("npm", ['cache','clean','--force']);
+    return spawnWrap(/^win/.test(process.platform) ? "npm.cmd" : "npm", ['cache','clean','--force']);
 }
 
 // 开始安装npm依赖
 async function npmInstall(cwd, packageArr){
     const str = packageArr.join(" ");
     const { url } = getLocalNpmConfig()
-    return spawnWrap("npm", ['install', str, '--force', `--registry=${url}`], { cwd }); 
+    return spawnWrap(/^win/.test(process.platform) ? "npm.cmd" : "npm", ['install', str, '--force', `--registry=${url}`], { cwd }); 
 }
 
 async function spawnWrap(command, args, opts) {
