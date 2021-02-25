@@ -32,7 +32,13 @@ module.exports = async function(packageArr){
     const localNpm = await startLocalNpm();
 
     // 创建临时项目开始抓取包
-    await pull(workspace, packageArr);
+    try {
+        await pull(workspace, packageArr);    
+    } catch (error) {
+        console.log("被我catch到了错误")
+        console.log(error)
+    }
+    
 
     
     localNpm.kill();
@@ -101,6 +107,7 @@ async function spawnWrap(command, args, opts) {
     return new Promise((resolve, reject) => {
         const thread = spawn(command, args, opts);
         thread.stderr.on('error', (error) => {
+            console.log(error)
             reject(error);
         });
         thread.on('close', (code) => {
