@@ -106,12 +106,13 @@ async function npmInstall(cwd, packageArr){
 async function spawnWrap(command, args, opts) {
     return new Promise((resolve, reject) => {
         const thread = spawn(command, args, opts);
+        const name = `${command} ${args.join(' ')}`
         thread.stderr.on('error', (error) => {
-            console.log(error);
+            console.log(`stderr:${name}:${error}`);
             reject(error);
         });
         thread.stdout.on('data', (data) => {
-            console.log(data);
+            console.log(`stdout:${name}:${data}`);
         });
         thread.on('close', (code) => {
             resolve(code);
