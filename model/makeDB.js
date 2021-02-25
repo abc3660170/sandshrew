@@ -61,11 +61,11 @@ async function startLocalNpm(){
         const localNpm = app.locals.localNpm = spawn('node',['local-npm.js'], {
             cwd: path.resolve(__dirname, '../build')
         });
-        // localNpm.stdout.on('data', (data) => {
-        //     console.log(`stdout: ${data}`);
-        // });
+        localNpm.stdout.on('data', (data) => {
+            console.log(`stdout:local-npm: ${data}`);
+        });
         localNpm.stderr.on('error', (data) => {
-            console.log(`stdout: ${data}`);
+            console.log(`stdout:local-npm: ${data}`);
         });
         setTimeout(() => {
             resolve(localNpm)
@@ -107,8 +107,11 @@ async function spawnWrap(command, args, opts) {
     return new Promise((resolve, reject) => {
         const thread = spawn(command, args, opts);
         thread.stderr.on('error', (error) => {
-            console.log(error)
+            console.log(error);
             reject(error);
+        });
+        thread.stdout.on('data', (data) => {
+            console.log(data);
         });
         thread.on('close', (code) => {
             resolve(code);
