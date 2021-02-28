@@ -26,7 +26,6 @@ module.exports = async function(packageArr) {
     const workspace = path.resolve(__dirname, "../tmp");
     await rmRf(workspace);
     await mkdirp(workspace);
-
     // 启动local-npm收集服务器
     const localNpm = await startLocalNpm();
     // 创建临时项目开始抓取包
@@ -50,9 +49,21 @@ async function downloadZipFile(cwd, receiveUser = "陈涛") {
   //return path.resolve(cwd, `to内网陈涛20210202015013466.zip`)
 }
 
-async function startLocalNpm() {
-  return await spawnWrap("node", ["local-npm.js"], {
-    cwd: path.resolve(__dirname, "../build"),
+function startLocalNpm() {
+  return new Promise(resolve => {
+    const thread = spawn("node", ["local-npm.js"], {
+      cwd: path.resolve(__dirname, "../build"),
+    });
+    const name = `node local-npm.js`;
+    thread.stdout.on("data", (data) => {
+      console.log(`${name}:${data}`);
+    });
+    thread.stderr.on("error", (error) => {
+      console.error(`${name}:${error}`);
+    });
+    setTimeout(() => {
+      resolve(thread);
+    }, 3000);
   });
 }
 
@@ -64,7 +75,6 @@ async function pull(cwd, packageArr) {
   await initProjectConfig(tmpProject);
 
   await cleanCache();
-
   await npmInstall(tmpProject, packageArr);
 }
 
@@ -89,7 +99,7 @@ async function npmInstall(cwd, packageArr) {
   );
 }
 
-async function spawnWrap(command, args, opts) {
+function spawnWrap(command, args, opts) {
   return new Promise((resolve, reject) => {
     const thread = spawn(command, args, opts);
     const name = `${command} ${args.join(" ")}`;
@@ -100,7 +110,7 @@ async function spawnWrap(command, args, opts) {
       console.error(`${name}:${error}`);
       reject(error);
     });
-    thread.on("close", (thread) => {
+    thread.on("close", () => {
       setTimeout(() => {
         resolve(thread);
       }, 3000);
