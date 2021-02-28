@@ -1,5 +1,5 @@
 <template>
-  <h1>NPM包下载中心-FEE</h1>
+  <h1>FEE-NPM-SERVICE-PULL</h1>
   <div
     class="panel"
     v-loading="downloading"
