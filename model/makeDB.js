@@ -31,16 +31,17 @@ module.exports = async function(packageArr) {
     // 创建临时项目开始抓取包
     await pull(workspace, packageArr);
     localNpm.kill();
+    return await downloadZipFile(workspace); 
   } catch (error) {
     console.error(error);
     throw error;
   }
-
-  return await downloadZipFile(workspace);
+   
 };
 
 // 生成必要的zip包
 async function downloadZipFile(cwd, receiveUser = "陈涛") {
+    console.log(2)
   const date = new Date().toISOString();
   const legalDateStr = date.replace(/[^0-9]*/g, "");
   const file = path.resolve(cwd, `to内网${receiveUser}${legalDateStr}.zip`);
@@ -54,6 +55,7 @@ function startLocalNpm() {
     const thread = spawn("node", ["local-npm.js"], {
       cwd: path.resolve(__dirname, "../build"),
     });
+    app.locals.localNpm = thread;
     const name = `node local-npm.js`;
     thread.stdout.on("data", (data) => {
       console.log(`${name}:${data}`);
