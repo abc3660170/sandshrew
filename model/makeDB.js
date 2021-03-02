@@ -92,11 +92,10 @@ async function cleanCache() {
 
 // 开始安装npm依赖
 async function npmInstall(cwd, packageArr) {
-  const str = packageArr.join(" ");
   const { url } = getLocalNpmConfig();
   return await spawnWrap(
     "npm",
-    ["install", str, "--force", `--registry=${url}`],
+    ["install", ...str, "--force", `--registry=${url}`],
     { cwd }
   );
 }
