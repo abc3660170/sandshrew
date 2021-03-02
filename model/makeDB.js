@@ -95,7 +95,7 @@ async function npmInstall(cwd, packageArr) {
   const { url } = getLocalNpmConfig();
   return await spawnWrap(
     "npm",
-    ["install", ...str, "--force", `--registry=${url}`],
+    ["install", ...packageArr, "--force", `--registry=${url}`],
     { cwd }
   );
 }
