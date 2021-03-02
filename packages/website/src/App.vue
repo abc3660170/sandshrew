@@ -78,7 +78,7 @@ export default {
     },
     async fetchPackage(packageName) {
       const response = await this.getAxios().get(
-        `/npmjs/package/${packageName}/document`
+        `/npmjs/package/${encodeURIComponent(packageName)}/document`
       );
       this.detail = response.data;
     },
