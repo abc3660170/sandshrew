@@ -1,10 +1,12 @@
+front-type: 'npmjs'             # verdaccio or npmjs      
+
 local-npm: # local-npm 的启动配置
   port: 5080
   pouchPort: 6789
-  remote: https://registry.npmjs.org
+  remote: https://registry.npmjs.org # 被pull的npm仓库地址
   remoteSkim: https://replicate.npmjs.com
-  url: http://127.0.0.1:5080
+  url: http://127.0.0.1:5080         # 被push的临时npm仓库地址
   directory: ./tmp/data
 
-app:
-  port: 2222
+verdaccio:
+  storage: /Users/chentao/verdaccio/conf/storage

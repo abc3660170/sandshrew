@@ -4,7 +4,14 @@ var fs = require('fs');
 var configFile = path.resolve(__dirname, '../config.yml');
 const doc = yaml.load(fs.readFileSync(configFile));
 
+module.exports.getFrontType = () => {
+    return doc['front-type'];
+}
+
 module.exports.getLocalNpmConfig = () => {
-    const doc = yaml.load(fs.readFileSync(configFile));
     return doc['local-npm'];
+}
+
+module.exports.getVerdaccioConfig = () => {
+    return doc['verdaccio'];
 }
