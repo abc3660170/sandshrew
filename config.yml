@@ -1,4 +1,4 @@
-front-type: 'npmjs'             # verdaccio or npmjs      
+front-type: 'npmjs'           # verdaccio or npmjs      
 
 local-npm: # local-npm 的启动配置
   port: 5080

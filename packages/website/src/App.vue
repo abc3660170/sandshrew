@@ -127,7 +127,7 @@ h1 {
 
 .panel {
   width: 800px;
-  height: 400px;
+  min-height: 400px;
   background: #eeeeee;
   margin: 0 auto;
 }
