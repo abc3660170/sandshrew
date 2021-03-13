@@ -15,3 +15,7 @@ module.exports.getLocalNpmConfig = () => {
 module.exports.getVerdaccioConfig = () => {
     return doc['verdaccio'];
 }
+
+module.exports.getNPMCommand = () => {
+    return /^win/.test(process.platform) ? 'npm.cmd' : 'npm';
+}

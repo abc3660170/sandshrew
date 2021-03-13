@@ -6,10 +6,9 @@
     element-loading-text="下载中请不用关闭页面！！！"
   >
     <download-list
-      v-model="picked"
+      v-model:pkgArr="picked"
       @start-download="downloading = true"
       @end-download="downloading = false"
-      @in-download="handleInused"
     ></download-list>
     <el-select
       v-model="keyword"
@@ -70,12 +69,6 @@ export default {
         }
       });
     },
-    handleInused() {
-      this.$message({
-        message: "有人在使用，待会再试试",
-        type: "warning"
-      });
-    },
     async fetchPackage(packageName) {
       const response = await this.getAxios().get(
         `/npmjs/package/${encodeURIComponent(packageName)}/document`
@@ -91,11 +84,6 @@ export default {
     handlePicked(val) {
       this.picked.add(val);
       this.handleReturn();
-    }
-  },
-  computed: {
-    pcikedHtml() {
-      return Array.from(this.picked).join(",");
     }
   },
   async created() {
@@ -127,7 +115,7 @@ h1 {
 
 .panel {
   width: 800px;
-  height: 400px;
+  min-height: 400px;
   background: #eeeeee;
   margin: 0 auto;
 }

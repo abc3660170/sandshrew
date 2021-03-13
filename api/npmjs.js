@@ -4,6 +4,7 @@ var router = express.Router();
 var makeDB = require('../model/makeDB');
 var app = express();
 var { getFrontType } = require('../utils/utils');
+var { INUSED } = require('../utils/errorCode');
 var { getSuggestions, getPackageDocument } = require('../model/verdaccio')
 const frontType = getFrontType();
 /* GET users listing. */
@@ -48,7 +49,10 @@ router.post('/download', async function(req, res, next) {
         // todo 撤销下载
     })
     if(app.locals.downloading){
-        res.status(226).end('有人在用你先等等')
+        res.status(500).json({
+            code: INUSED,
+            message: '有人在用你先等等'
+        })
     } else {
         app.locals.downloading = true;
         const packages = req.body;
@@ -58,6 +62,10 @@ router.post('/download', async function(req, res, next) {
                 app.locals.downloading = false;
             });
         } catch (error) {
+            res.status(500).json({
+                code: error.name,
+                message: error.message
+            })
             app.locals.downloading = false;
         }
         

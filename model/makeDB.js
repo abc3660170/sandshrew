@@ -2,9 +2,13 @@ var path = require("path");
 var express = require("express");
 const { spawn } = require("child_process");
 var app = express();
-var { getLocalNpmConfig } = require("../utils/utils");
+var { getLocalNpmConfig, getNPMCommand } = require("../utils/utils");
 var mkdirp = require("mkdirp");
+var MyError = require("../utils/MyError");
+var errorCode = require("../utils/errorCode");
 const rimraf = require("rimraf");
+const fs = require("fs");
+const npm = getNPMCommand();
 
 /**
  * 生成包数据库（pouchDB）
@@ -12,7 +16,7 @@ const rimraf = require("rimraf");
  */
 module.exports = async function(packageArr) {
   if (!(packageArr instanceof Array) || packageArr.length === 0) {
-    throw new Error("不是数组，或者这是个空数组！");
+    throw new MyError("不是数组，或者这是个空数组！");
   }
 
   try {
@@ -82,22 +86,28 @@ async function pull(cwd, packageArr) {
 
 // 格式化目录配置
 async function initProjectConfig(cwd) {
-  return await spawnWrap("npm", ["init", "-y"], { cwd });
+  return await spawnWrap(npm, ["init", "-y"], { cwd });
 }
 
 // 清理npm缓存目录
 async function cleanCache() {
-  return await spawnWrap("npm", ["cache", "clean", "--force"]);
+  return await spawnWrap(npm, ["cache", "clean", "--force"]);
 }
 
 // 开始安装npm依赖
 async function npmInstall(cwd, packageArr) {
+  const pkg = path.resolve(cwd, 'package.json');
   const { url } = getLocalNpmConfig();
-  return await spawnWrap(
-    "npm",
+  const thread = await spawnWrap(
+    npm,
     ["install", ...packageArr, "--force", `--registry=${url}`],
     { cwd }
   );
+  const content = JSON.parse(fs.readFileSync(pkg,'utf-8'));
+  if(!content['dependencies']){
+    throw new MyError('可能是因为安装的包太多了导致的', errorCode.MEMLOW);
+  }
+  return thread;
 }
 
 function spawnWrap(command, args, opts) {
