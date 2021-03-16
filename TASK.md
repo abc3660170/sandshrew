@@ -9,3 +9,13 @@
 1. 下载前检测dependency是否存在不存在则安装失败
 1. 部署到内网时包查询功能
 1. 保证抽取和导入不能同时进行
+
+***
+2021-03-16
+
+1. express 的不同源跨域问题解决
+1. config.yaml 合理性分组
+1. config.yaml 中的 local-npm 里的url必须改为绝对ip
+1. npm install 必须增加环境变量
+1. 服务端口问题统一用配置做，目前都是hard coding进去的
+1. fee-local-npm 中的getTarLocation 需要针对内网进行优化, 建议通过配置去改进，而不是一斧头统一掉，外网该有外网的通用逻辑，内网是专用逻辑
