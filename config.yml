@@ -1,12 +1,34 @@
-front-type: 'npmjs'           # verdaccio or npmjs      
+front-type: 'npmjs'           # pelipper or npmjs      
 
-local-npm: # local-npm 的启动配置
+# npmjs 是在互联网用的配置，请忽略。
+npmjs:
+  ip: 127.0.0.1
   port: 5080
   pouchPort: 6789
-  remote: https://registry.npmjs.org # 被pull的npm仓库地址
-  remoteSkim: https://replicate.npmjs.com
-  url: http://127.0.0.1:5080         # 被push的临时npm仓库地址
-  directory: ./tmp/data
+  remote: https://registry.npmjs.org
+  url: http://${local-npm.ip}:${local-npm.port}       
 
-verdaccio:
-  storage: /Users/chentao/verdaccio/conf/storage
+# pelipper(大嘴鸥) 是部署到内网后需要大家谨慎配置的
+pelipper:
+  # 这台服务器的IP：必须是绝对地址，不能是 127.0.0.1 或 0.0.0.0 等
+  ip: 127.0.0.1
+
+  # 可用的端口即可，建议默认值
+  port: 5080
+
+  # 可用的端口即可，建议默认值
+  pouchPort: 6789
+
+  # pelipper仓库的regsitry端口，建议默认值
+  pelipperPort: 1414
+
+  # 本台服务器pelipper仓库的包存储路径
+  storage: /Users/chentao/pelipper/conf/storage
+
+  ################ 我下面的配置请勿修改 ################
+  
+  # 这里填写这台服务器pelipper仓库的registry地址
+  remote: https://${ip}:${pelipperPort}
+
+  # 临时包存储服务仓库的registry地址
+  url: https://${ip}:${port}

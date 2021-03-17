@@ -1,7 +1,7 @@
-var { getVerdaccioConfig } = require("../utils/utils");
+var { pelipperConfig } = require("../utils/utils");
 var path = require("path");
 var fs = require("fs");
-const { storage } = getVerdaccioConfig();
+const { storage } = pelipperConfig;
 function getSuggestions(q) {
   const nsMatcher = /(^.+)\//.exec(q);
   const pkgMatcher = /[^\/]+$/.exec(q);
@@ -10,7 +10,7 @@ function getSuggestions(q) {
   console.log(q);
   return new Promise((resolve, reject) => {
     if (!storage) {
-      return reject(new Error("verdaccio's  storage configration is empty!"));
+      return reject(new Error("pelipper's  storage configration is empty!"));
     }
     const nsDir = path.resolve(storage, ns);
     fs.readdir(`${nsDir}`, "utf-8", (error, files) => {

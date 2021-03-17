@@ -78,7 +78,11 @@ export default {
         const ab = await response.data.arrayBuffer();
         const error = JSON.parse(enc.decode(new Uint8Array(ab)));
         if ([MEMLOW, INUSED].includes(error.code)) {
-          this.$message.error(error.message);
+          this.$notify.error({
+            title: '下载失败',
+            message: error.message,
+            duration: 0
+          });
         }
       }
       this.$emit("end-download");
