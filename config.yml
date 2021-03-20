@@ -1,4 +1,4 @@
-front-type: 'pelipper'           # pelipper or npmjs 
+front-type: 'npmjs'           # pelipper or npmjs 
 
 app:
   port: 3000  # 系统服务端口
