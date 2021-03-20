@@ -1,16 +1,18 @@
-front-type: 'npmjs'           # pelipper or npmjs      
+front-type: 'pelipper'           # pelipper or npmjs 
+
+app:
+  port: 3000  # 系统服务端口
 
 # npmjs 是在互联网用的配置，请忽略。
 npmjs:
   port: 5080
   pouchPort: 6789
   remote: https://registry.npmjs.org
-  url: http://127.0.0.1:5080
 
 # pelipper(大嘴鸥) 是部署到内网后需要大家谨慎配置的
 pelipper:
 
-  # 可用的端口即可，建议默认值
+  # 临时包存储服务仓库的registry端口，建议默认值
   port: 5080
 
   # 可用的端口即可，建议默认值
@@ -21,6 +23,3 @@ pelipper:
   
   # 这里填写这台服务器pelipper仓库的registry地址
   remote: http://127.0.0.1:1414
-
-  # 临时包存储服务仓库的registry地址
-  url: http://127.0.0.1:5080

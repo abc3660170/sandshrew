@@ -100,8 +100,13 @@ async function npmInstall(cwd, packageArr) {
   const { url } = getLocalNpmConfig();
   const thread = await spawnWrap(
     npm,
-    ["install", ...packageArr, "--force", `--registry=${url}`],
-    { cwd }
+    ["install", ...packageArr, "--force"],
+    { 
+      cwd,
+      env: Object.assign({}, process.env, {
+        NPM_CONFIG_REGISTRY: url
+      })
+    }
   );
   const content = JSON.parse(fs.readFileSync(pkg,'utf-8'));
   if(!content['dependencies']){
