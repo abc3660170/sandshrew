@@ -9,7 +9,7 @@ const doc = yaml.load(fs.readFileSync(configFile));
 
 module.exports.frontType = doc['front-type'];
 
-module.exports.getLocalNpmConfig = () => {
+function _getLocalNpmConfig(){
     const from = doc['front-type'];
     const config = doc[from];
     const url = `http://${_getLocalIPv4Address()}:${config.port}`
@@ -20,9 +20,13 @@ module.exports.getLocalNpmConfig = () => {
     }
 }
 
-module.exports.getAppConfig = () => {
+module.exports.getLocalNpmConfig = _getLocalNpmConfig;
+
+function _getAppConfig() {
     return doc['app'];
 }
+
+module.exports.getAppConfig = _getAppConfig;
 
 module.exports.pelipperConfig = doc['pelipper']
 
@@ -44,3 +48,18 @@ function _getLocalIPv4Address(){
 }
 
 module.exports.getLocalIPv4Address = _getLocalIPv4Address
+
+module.exports.getEnvs = function(){
+    var configFile = path.resolve(__dirname, '../mirror.yml');
+    const { remote: npmRegistry, mirror } = _getLocalNpmConfig();
+    const binaryHosts = yaml.load(fs.readFileSync(configFile));
+    const result = [];
+    for (const key in binaryHosts) {
+        if (Object.hasOwnProperty.call(binaryHosts, key)) {
+            const host = `${mirror}/${binaryHosts[key]}`;
+            result.push(`--${key}=${host}`); 
+        }
+    }
+    result.push(`--registry=${npmRegistry}`);
+    return result;
+}

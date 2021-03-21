@@ -1,0 +1,5 @@
+leveldown_binary_host: leveldown
+sass_binary_site: node-sass
+phantomjs_cdnurl: phantomjs
+electron_mirror: electron
+chromedriver_cdnurl: chromedriver
