@@ -51,7 +51,7 @@ module.exports.getLocalIPv4Address = _getLocalIPv4Address
 
 module.exports.getEnvs = function(){
     var configFile = path.resolve(__dirname, '../mirror.yml');
-    const { remote: npmRegistry, mirror } = _getLocalNpmConfig();
+    const { url: npmRegistry, mirror } = _getLocalNpmConfig();
     const binaryHosts = yaml.load(fs.readFileSync(configFile));
     const result = [];
     for (const key in binaryHosts) {
