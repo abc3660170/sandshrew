@@ -3,7 +3,7 @@ export default {
   methods: {
     getAxios() {
       return axios.create({
-        baseURL: `${location.protocol}//${location.hostname}:3000`,
+        baseURL: `${location.protocol}//${location.hostname}:${process.env.VUE_APP_PORT}`,
       });
     },
   },

@@ -2,7 +2,7 @@ var path = require("path");
 var express = require("express");
 const { spawn } = require("child_process");
 var app = express();
-var { getLocalNpmConfig, getNPMCommand } = require("../utils/utils");
+var { getNPMCommand, getEnvs } = require("../utils/utils");
 var mkdirp = require("mkdirp");
 var MyError = require("../utils/MyError");
 var errorCode = require("../utils/errorCode");
@@ -79,8 +79,10 @@ async function pull(cwd, packageArr) {
   mkdirp(tmpProject);
 
   await initProjectConfig(tmpProject);
-
-  await cleanCache();
+  try {
+    await cleanCache();
+  } catch (error) {}
+  
   await npmInstall(tmpProject, packageArr);
 }
 
@@ -97,12 +99,23 @@ async function cleanCache() {
 // 开始安装npm依赖
 async function npmInstall(cwd, packageArr) {
   const pkg = path.resolve(cwd, 'package.json');
-  const { url } = getLocalNpmConfig();
-  const thread = await spawnWrap(
-    npm,
-    ["install", ...packageArr, "--force", `--registry=${url}`],
-    { cwd }
-  );
+  let thread;
+  try {
+    thread = await spawnWrap(
+      npm,
+      ["install", ...packageArr, "--force", ...getEnvs()],
+      { 
+        cwd
+      }
+    );
+  } catch (error) {
+    console.log('========= errors ========')
+    console.log(error);
+    if(error.indexOf('ENOTFOUND') !== -1){
+      throw new MyError('npm registry 服务器没开机？', errorCode.ENOTFOUND);
+    }
+  }
+  
   const content = JSON.parse(fs.readFileSync(pkg,'utf-8'));
   if(!content['dependencies']){
     throw new MyError('可能是因为安装的包太多了导致的', errorCode.MEMLOW);
@@ -112,18 +125,23 @@ async function npmInstall(cwd, packageArr) {
 
 function spawnWrap(command, args, opts) {
   return new Promise((resolve, reject) => {
+    let errors = '';
     const thread = spawn(command, args, opts);
     const name = `${command} ${args.join(" ")}`;
     thread.stdout.on("data", (data) => {
       console.log(`${name}:${data}`);
     });
-    thread.stderr.on("error", (error) => {
-      console.error(`${name}:${error}`);
-      reject(error);
+    thread.stderr.on("data", (error) => {
+      errors = errors + '\n' + error.toString('utf-8');
+      // reject(error);
     });
     thread.on("close", () => {
       setTimeout(() => {
-        resolve(thread);
+        if(errors.length > 0){
+          reject(errors);
+        } else {
+          resolve(thread);
+        }
       }, 3000);
     });
   });
