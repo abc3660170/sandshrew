@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var npmjsRouter = require('./api/npmjs.js');
 const ejs = require('ejs');
+const { getLocalNpmConfig } =require("./utils/utils");
+const { mirrorStorage, mirrorPath } = getLocalNpmConfig();
 
 var app = express();
 
@@ -26,6 +28,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/dist')));
+if(mirrorStorage){
+  console.log(mirrorPath)
+  app.use(mirrorPath, express.static(mirrorStorage));
+}
+
 
 app.get('/', function(req, res){
   res.set('Content-Type', 'text/html');

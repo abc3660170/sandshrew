@@ -1,4 +1,5 @@
 module.exports = {
     MEMLOW: 'MEMLOW',
-    INUSED: 'INUSED'
+    INUSED: 'INUSED',
+    ENOTFOUND: 'ENOTFOUND'
 }
