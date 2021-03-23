@@ -28,8 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/dist')));
-if(mirrorStorage){
-  console.log(mirrorPath)
+if(mirrorPath && !/^http/.test(mirrorPath)){
   app.use(mirrorPath, express.static(mirrorStorage));
 }
 
