@@ -21,7 +21,9 @@
       </div>
     </el-main>
     <el-footer class="footer"
-      ><el-link type="primary" href="/pull">去导出界面</el-link></el-footer
+      ><router-link to="/pull">
+        去导出界面
+      </router-link></el-footer
     >
   </el-container>
 </template>

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import Pull from '../pages/pull';
 import Push from '../pages/push';
 
@@ -22,7 +22,7 @@ export const routes = [
 
 const router = createRouter({
     routes,
-    history: createWebHistory()
+    history: createWebHashHistory('/')
 });
 
 export default router;

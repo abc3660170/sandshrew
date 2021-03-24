@@ -40,7 +40,11 @@
       </div>
     </el-main>
     <el-footer class="footer"
-      ><el-link type="primary" href="/push">去导入界面</el-link></el-footer
+      >
+      <router-link to="/push">
+        去导入界面
+      </router-link>
+      </el-footer
     >
   </el-container>
 </template>
@@ -59,7 +63,7 @@ export default {
       loading: false,
       downloading: false,
       detail: null,
-      keyword: [],
+      keyword: '',
       picked: new Set(),
     };
   },
