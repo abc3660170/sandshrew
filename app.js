@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var npmjsRouter = require('./api/npmjs.js');
+var pushRouter = require('./api/push.js');
 const ejs = require('ejs');
 const { getLocalNpmConfig } =require("./utils/utils");
 const { mirrorStorage, mirrorPath } = getLocalNpmConfig();
@@ -39,6 +40,7 @@ app.get('/', function(req, res){
 })
 
 app.use('/npmjs', npmjsRouter);
+app.use('/push', pushRouter);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

@@ -16,6 +16,7 @@
   },
   "main": "index.js",
   "dependencies": {
+    "@fee/local-npm-intranet": "^1.0.0",
     "axios": "~0.21.1",
     "cookie-parser": "~1.4.5",
     "core-js": "~3.8.3",
@@ -25,14 +26,17 @@
     "element3": "0.0.39",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.1",
+    "extract-zip": "^2.0.1",
     "fee-local-npm": "^2.2.5",
     "http-errors": "~1.6.3",
     "js-yaml": "~4.0.0",
     "mkdirp": "^0.5.5",
     "morgan": "~1.9.1",
+    "multer": "^1.4.2",
     "normalize.css": "~8.0.1",
     "rimraf": "^2.7.1",
-    "vue": "^3.0.7"
+    "vue": "^3.0.7",
+    "vue-router": "^4.0.5"
   },
   "devDependencies": {
     "@types/node": "~14.14.22",
