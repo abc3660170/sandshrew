@@ -63,3 +63,7 @@ module.exports.getEnvs = function(){
     result.push(`--registry=${npmRegistry}`);
     return result;
 }
+
+module.exports.isBusy = function(){
+    return process.env.NPM_DOWNLOADING || process.env.NPM_UPLOAD;
+}

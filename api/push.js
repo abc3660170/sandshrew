@@ -6,7 +6,7 @@ var rimraf = require("rimraf");
 var fs = require("fs");
 var extractZip = require("extract-zip");
 const { spawn } = require("child_process");
-const { getLocalNpmConfig } = require("../utils/utils");
+const { getLocalNpmConfig, isBusy } = require("../utils/utils");
 var app = express();
 
 var upload = multer({ dest: "uploads/" });
@@ -26,7 +26,7 @@ async function cutoff() {
   // 清理工作目录
   await clean(workspace);
 
-  app.locals.upload = false;
+  process.env.NPM_UPLOAD = false;
 }
 
 router.get("/close", async function (req, res, next) {
@@ -35,12 +35,10 @@ router.get("/close", async function (req, res, next) {
 });
 
 router.post("/upload", upload.single("file"), async function (req, res, next) {
-  if (app.locals.upload) {
-    res.json({ code: 226, errors: ["有人在上传你先等等还行啊！"] });
-  } else if(app.locals.download){
-    res.json({ code: 226, errors: ["有人在下载你先等等还行啊！"] });
+  if(isBusy()){
+    res.json({ code: 226, errors: ["有人在用，你先等等还行啊！"] });
   } else {
-    app.locals.upload = true;
+    process.env.NPM_UPLOAD = true;
     const file = req.file.path;
     let ws,
       errors = [];
@@ -77,7 +75,7 @@ router.post("/upload", upload.single("file"), async function (req, res, next) {
 });
 
 function endReq(res, code, errors = []) {
-  app.locals.upload = false;
+  process.env.NPM_UPLOAD = false;
   res.json({ errors, code });
 }
 
