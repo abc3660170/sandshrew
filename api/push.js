@@ -37,12 +37,13 @@ router.get("/close", async function (req, res, next) {
 router.post("/upload", upload.single("file"), async function (req, res, next) {
   if (app.locals.upload) {
     res.json({ code: 226, errors: ["有人在上传你先等等还行啊！"] });
+  } else if(app.locals.download){
+    res.json({ code: 226, errors: ["有人在下载你先等等还行啊！"] });
   } else {
     app.locals.upload = true;
     const file = req.file.path;
     let ws,
       errors = [];
-
     try {
       // 解压上传后的附件
       ws = await unzipFile(file);

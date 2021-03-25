@@ -50,7 +50,12 @@ router.post('/download', async function(req, res, next) {
     if(app.locals.downloading){
         res.status(500).json({
             code: INUSED,
-            message: '有人在用你先等等'
+            message: '有人在下载你先等等还行啊！'
+        })
+    } else if(app.locals.upload){
+        res.status(500).json({
+            code: INUSED,
+            message: '有人在上传你先等等还行啊！'
         })
     } else {
         app.locals.downloading = true;

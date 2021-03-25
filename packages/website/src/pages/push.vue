@@ -52,6 +52,12 @@ export default {
           document.querySelector(".mask").classList.add("hide");
           if (res.data.code === 200) {
             alert("上传成功！");
+          } else if(res.data.code === 226){
+            this.$notify.error({
+              title: '上传失败',
+              message: '有人在上传，你先等等还行啊',
+              duration: 0
+            });
           } else {
             alert("上传失败，下面是错误原因！");
             document.querySelector(".message").classList.remove("hide");
