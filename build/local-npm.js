@@ -1,6 +1,6 @@
 var path = require("path");
 var localNpm = require("fee-local-npm");
-var localNpmPush = require("@fee/local-npm-intranet");
+var localNpmPush = require("fee-local-npm-intranet");
 var { getLocalNpmConfig } = require("../utils/utils");
 const localNpmConfig = getLocalNpmConfig();
 const directory = path.resolve(__dirname, "../tmp/data");

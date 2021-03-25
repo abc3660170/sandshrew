@@ -16,7 +16,6 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@fee/local-npm-intranet": "^1.0.0",
     "axios": "~0.21.1",
     "cookie-parser": "~1.4.5",
     "core-js": "~3.8.3",
@@ -28,6 +27,7 @@
     "express-handlebars": "^5.2.1",
     "extract-zip": "^2.0.1",
     "fee-local-npm": "^2.2.5",
+    "fee-local-npm-intranet": "^1.0.0",
     "http-errors": "~1.6.3",
     "js-yaml": "~4.0.0",
     "mkdirp": "^0.5.5",

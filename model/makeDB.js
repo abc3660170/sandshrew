@@ -32,8 +32,6 @@ module.exports = async function(packageArr) {
     await mkdirp(workspace);
     // 启动local-npm收集服务器
     const localNpm = await startLocalNpm();
-
-    await restartVerdaccio();
     
     // 创建临时项目开始抓取包
     await pull(workspace, packageArr);
@@ -69,7 +67,7 @@ function startLocalNpm() {
     thread.stdout.on("data", (data) => {
       console.log(`${name}:${data}`);
     });
-    thread.stderr.on("error", (error) => {
+    thread.stderr.on("data", (error) => {
       console.error(`${name}:${error}`);
     });
     setTimeout(() => {
@@ -128,16 +126,6 @@ async function npmInstall(cwd, packageArr) {
   return thread;
 }
 
-/**
- * 重启在同一台服务器上的 Verdaccio 服务器
- */
- async function restartVerdaccio() {
-  // 在windows平台上什么都不用做，说明未部署到服务器呢
-  if (/^win/.test(process.platform)) {
-    return Promise.resolve();
-  }
-  return await spawnWrap("pm2", ["restart", "verdaccio"]);
-}
 
 function spawnWrap(command, args, opts) {
   return new Promise((resolve, reject) => {
