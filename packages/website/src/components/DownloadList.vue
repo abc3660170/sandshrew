@@ -48,6 +48,15 @@ export default {
         inputErrorMessage: "文件名称格式不对",
       });
     },
+    async blob2ArrayBuffer(blob) {
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onloadend = function(){
+          resolve(reader.result);
+        }
+        reader.readAsArrayBuffer(blob);
+      })
+    },
     async download() {
       const { value: zipFile } = await this.askForFileName();
       this.$emit("start-download");
@@ -74,7 +83,7 @@ export default {
         this.$emit("update:pkgArr", new Set());
       } else if (response.status === 500) {
         var enc = new TextDecoder("utf-8");
-        const ab = await response.data.arrayBuffer();
+        const ab = await this.blob2ArrayBuffer(response.data);
         const error = JSON.parse(enc.decode(new Uint8Array(ab)));
         //if ([MEMLOW, INUSED].includes(error.code)) {
           this.$notify.error({
