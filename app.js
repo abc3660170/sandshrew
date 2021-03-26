@@ -10,6 +10,8 @@ const { getLocalNpmConfig } =require("./utils/utils");
 const { mirrorStorage, mirrorPath } = getLocalNpmConfig();
 
 var app = express();
+process.env.NPM_DOWNLOADING = false;
+process.env.NPM_UPLOAD = false;
 
 //设置跨域访问
 app.all('*', function(req, res, next) {
