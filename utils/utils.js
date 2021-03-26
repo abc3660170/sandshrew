@@ -65,5 +65,6 @@ module.exports.getEnvs = function(){
 }
 
 module.exports.isBusy = function(){
-    return Boolean(process.env.NPM_DOWNLOADING) || Boolean(process.env.NPM_UPLOAD);
+
+    return process.env.NPM_DOWNLOADING !== 'false' || process.env.NPM_UPLOAD !== 'false';
 }
