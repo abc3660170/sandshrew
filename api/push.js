@@ -161,16 +161,13 @@ function localInstall(ws) {
       return reject(error);
     }
 
-    const { url } = getLocalNpmConfig();
+    const { remote } = getLocalNpmConfig();
     // 开始安装
     const thread = spawn(
       /^win/.test(process.platform) ? "npm.cmd" : "npm",
-      ["install", "--force", `--registry=${url}`],
+      ["install", "--force", `--registry=${remote}`],
       {
-        cwd: projectCwd,
-        env: Object.assign({}, process.env, {
-          NPM_CONFIG_REGISTRY: url,
-        }),
+        cwd: projectCwd
       }
     );
 

@@ -37,7 +37,7 @@ html{
 header{
   background-color: #8691A7;
   min-height: 60px;
-  box-shadow: 1px 0px 7px #000;
+  box-shadow: 1px 0px 8px rgba(#1b2538, 0.4);
   .inner{
     width: 1200px;
     margin: 0 auto;
