@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main>
-      <div class="uploadArea">
+      <div class="uploadArea" v-show="showUploadBtn">
         <input
           type="file"
           id="upload"
@@ -12,13 +12,18 @@
           点我上传
         </button>
       </div>
-      <div class="message hide"></div>
-      <div class="mask hide">
+      <div class="message" v-show="!showUploadBtn">
+        <div class="title">错误日志：</div>
+        <div v-html="errors"></div>
+      </div>
+      <div class="mask"  v-show="uploading">
         <div class="text">正在导入...</div>
       </div>
     </el-main>
     <el-footer class="footer"
-      ><router-link to="/pull">
+      >
+      <a href="javascript:;" class="backToUpload" v-if="!showUploadBtn" @click="showUploadBtn = true">返回上传</a>
+      <router-link to="/pull">
         去导出界面
       </router-link></el-footer
     >
@@ -30,12 +35,19 @@ import mixins from "../mixins/mixins";
 export default {
   name: "Push",
   mixins: [mixins],
+  data(){
+    return {
+      uploading: false,
+      showUploadBtn: true,
+      errors:''
+    }
+  },
   methods: {
     trggerUpload() {
       this.$el.querySelector("#upload").click();
     },
     upload(file) {
-      document.querySelector(".mask").classList.remove("hide");
+      this.uploading = true;
       const uploadFormData = new FormData(); //创建form对象
       uploadFormData.append("file", file); //通过append向form对象添加数据
       this.getAxios()
@@ -46,7 +58,7 @@ export default {
           timeout: 0,
         })
         .then((res) => {
-          document.querySelector(".mask").classList.add("hide");
+          this.uploading = false;
           if (res.data.code === 200) {
             alert("上传成功！");
           } else if(res.data.code === 226){
@@ -56,19 +68,13 @@ export default {
               duration: 0
             });
           } else {
-            alert("上传失败，下面是错误原因！");
-            document.querySelector(".message").classList.remove("hide");
-            const $html =
-              "<span>错误信息:</span><br/>" +
-              res.data.errors.join("\n").replace(/\n/g, "<br/>");
-            document.querySelector(".message").innerHTML = $html;
+            this.showUploadBtn = false;
+            this.errors = res.data.errors.join("\n").replace(/\n/g, "<br/>");
           }
         });
     },
 
     handleChange(ev) {
-      this.$el.querySelector(".message").classList.add("hide");
-      this.$el.querySelector(".message").innerHTML = "";
       const fileList = ev.target.files;
       this.upload(fileList[0]);
       ev.target.value = "";
@@ -125,15 +131,15 @@ a {
   background-color: #b9c6dd;
 }
 
-.message {
-  padding: 10px;
-  margin-top: 20px;
-  color: purple;
-  background-color: tomato;
+.backToUpload{
+  margin-right: 10px;
 }
 
-.hide {
-  display: none;
+.message {
+  padding: 20px;
+  margin-top: 20px;
+  color: #e51717;
+  background-color: rgba(229, 23, 23,0.08);
 }
 
 .mask {
