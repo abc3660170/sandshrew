@@ -1,8 +1,5 @@
 <template>
   <el-container>
-    <el-header>
-      <h1>FEE-NPM-SERVICE-PUSH</h1>
-    </el-header>
     <el-main>
       <div class="uploadArea">
         <input
@@ -12,7 +9,7 @@
           accept="application/zip"
         />
         <button @click="trggerUpload" class="uploadBtn">
-          上传npm包
+          点我上传
         </button>
       </div>
       <div class="message hide"></div>
@@ -77,12 +74,15 @@ export default {
       ev.target.value = "";
     },
   },
+  created(){
+    this.$emit('title-change', 'NPM包-导入');
+  }
 };
 </script>
 
 <style scoped>
-h1 {
-  text-align: center;
+.uploadArea{
+  margin-top: 200px;
 }
 
 a {
@@ -113,18 +113,16 @@ a {
   outline: none;
   transition: background, box-shadow,
     color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  background-color: #007fff;
-  border-color: #007fff;
+  background-color: #8691A7;
+  border-color: none;
 }
 
 .uploadBtn:hover {
-  background-color: #409fff;
-  border-color: #409fff;
+  background-color: #a3b3d1;
 }
 
 .uploadBtn:active {
-  background-color: #006cd9;
-  border-color: #006cd9;
+  background-color: #b9c6dd;
 }
 
 .message {

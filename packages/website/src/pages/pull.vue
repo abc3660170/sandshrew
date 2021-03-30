@@ -1,8 +1,5 @@
 <template>
   <el-container>
-    <el-header>
-      <h1>FEE-NPM-SERVICE-PULL</h1>
-    </el-header>
     <el-main>
       <div
         class="panel"
@@ -100,6 +97,7 @@ export default {
     },
   },
   async created() {
+    this.$emit('title-change',  'NPM包-导出');
     this.getSuggestion = debounce((q, callback) => {
       this.getAxios()
         .get(`/npmjs/suggestions?q=${q}`)
@@ -115,13 +113,6 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 h1 {
   text-align: center;
 }
