@@ -120,7 +120,7 @@ h1 {
 .panel {
   width: 800px;
   min-height: 400px;
-  background: rgba(#7399e6, 0.08);
+  background: rgba(115,153,230,0.08);
   margin: 0 auto;
 }
 .footer {
