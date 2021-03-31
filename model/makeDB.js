@@ -64,7 +64,7 @@ function startLocalNpm() {
     thread.stdout.on("data", (data) => {
       console.log(`${name}:${data}`);
     });
-    thread.stderr.on("error", (error) => {
+    thread.stderr.on("data", (error) => {
       console.error(`${name}:${error}`);
     });
     setTimeout(() => {
