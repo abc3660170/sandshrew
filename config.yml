@@ -29,7 +29,7 @@ pelipper:
   remote: http://127.0.0.1:1414
 
   # 二进制数据的url路径: http://xxx.xxx.xxx.xxx:xx/mirrorPath
-  mirrorPath: /mirrors
+  mirrorPath: http://127.0.0.1:1313
 
   # 二进制绑定数据
   mirrorStorage: /Users/chentao/pelipper/conf/storage 

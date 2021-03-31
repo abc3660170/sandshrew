@@ -1,122 +1,63 @@
 <template>
-  <h1>FEE-NPM-SERVICE-PULL</h1>
-  <div
-    class="panel"
-    v-loading="downloading"
-    element-loading-text="下载中请不用关闭页面！！！"
-  >
-    <download-list
-      v-model:pkgArr="picked"
-      @start-download="downloading = true"
-      @end-download="downloading = false"
-    ></download-list>
-    <el-select
-      v-model="keyword"
-      remote
-      filterable
-      placeholder="请输入你想要查找的包"
-      :remote-method="fetchPackageList"
-      :loading="loading"
-      @change="fetchPackage"
-      style="width:100%"
-    >
-      <el-option
-        v-for="packageDoc in list"
-        :key="packageDoc.name"
-        :label="packageDoc.name"
-        :value="packageDoc.name"
-      >
-      </el-option>
-    </el-select>
-    <package-detail
-      v-model="detail"
-      v-if="detail"
-      @pick="handlePicked"
-    ></package-detail>
+  <div id="app">
+    <header>
+      <div class="inner">
+        <div class="logo"></div>
+      <div class="title">{{ title }}</div>
+      </div>
+      
+    </header>
+    <div class="main">
+      <router-view @title-change="handleChange"></router-view>
+    </div>
   </div>
 </template>
-
 <script>
-import PackageDetail from "./components/PackageDetail";
-import debounce from "debounce";
-import mixins from "./mixins/mixins";
-import DownloadList from "./components/DownloadList";
 export default {
   name: "App",
-  mixins: [mixins],
-  data() {
+  data(){
     return {
-      list: [],
-      loading: false,
-      downloading: false,
-      detail: null,
-      keyword: [],
-      picked: new Set()
-    };
-  },
-  components: {
-    PackageDetail,
-    DownloadList
-  },
-  methods: {
-    fetchPackageList(q) {
-      this.loading = true;
-      this.detail = null;
-      this.getSuggestion(q, (error, data) => {
-        this.loading = false;
-        if (!error) {
-          this.list = data;
-        }
-      });
-    },
-    async fetchPackage(packageName) {
-      const response = await this.getAxios().get(
-        `/npmjs/package/${encodeURIComponent(packageName)}/document`
-      );
-      this.detail = response.data;
-    },
-
-    handleReturn() {
-      this.detail = null;
-      this.keyword = "";
-      this.list = [];
-    },
-    handlePicked(val) {
-      this.picked.add(val);
-      this.handleReturn();
+      title: ''
     }
   },
-  async created() {
-    this.getSuggestion = debounce((q, callback) => {
-      this.getAxios()
-        .get(`/npmjs/suggestions?q=${q}`)
-        .then(response => {
-          callback(null, response.data);
-        })
-        .catch(e => {
-          callback(e);
-        });
-    }, 400);
+  methods: {
+    handleChange(title){
+      this.title = title
+    }
   }
 };
 </script>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
+html{
+  background: #E9EBEF;
 }
-h1 {
-  text-align: center;
+</style>
+<style lang="scss" scoped>
+header{
+  background-color: #8691A7;
+  min-height: 60px;
+  box-shadow: 1px 0px 8px rgba(#1b2538, 0.4);
+  .inner{
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+  }
+  .logo{
+    margin: 10px;
+    width: 40px;
+    height: 40px;
+    background: url('./assets/logo.svg');
+  }
+
+  .title{
+    line-height: 60px;
+    color: #fff;
+    font-size: 20px;
+  }
 }
 
-.panel {
-  width: 800px;
-  min-height: 400px;
-  background: #eeeeee;
-  margin: 0 auto;
-}
+.main{
+    width: 1200px;
+    margin: 0 auto;
+  }
 </style>

@@ -51,15 +51,20 @@ module.exports.getLocalIPv4Address = _getLocalIPv4Address
 
 module.exports.getEnvs = function(){
     var configFile = path.resolve(__dirname, '../mirror.yml');
-    const { url: npmRegistry, mirror } = _getLocalNpmConfig();
+    const { url: npmRegistry, mirrorPath } = _getLocalNpmConfig();
     const binaryHosts = yaml.load(fs.readFileSync(configFile));
     const result = [];
     for (const key in binaryHosts) {
         if (Object.hasOwnProperty.call(binaryHosts, key)) {
-            const host = `${mirror}/${binaryHosts[key]}`;
+            const host = `${mirrorPath}/${binaryHosts[key]}`;
             result.push(`--${key}=${host}`); 
         }
     }
     result.push(`--registry=${npmRegistry}`);
     return result;
+}
+
+module.exports.isBusy = function(){
+
+    return process.env.NPM_DOWNLOADING !== 'false' || process.env.NPM_UPLOAD !== 'false';
 }

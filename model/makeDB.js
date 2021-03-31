@@ -32,6 +32,7 @@ module.exports = async function(packageArr) {
     await mkdirp(workspace);
     // 启动local-npm收集服务器
     const localNpm = await startLocalNpm();
+    
     // 创建临时项目开始抓取包
     await pull(workspace, packageArr);
     localNpm.kill();
@@ -45,7 +46,6 @@ module.exports = async function(packageArr) {
 
 // 生成必要的zip包
 async function downloadZipFile(cwd, receiveUser = "陈涛") {
-    console.log(2)
   const date = new Date().toISOString();
   const legalDateStr = date.replace(/[^0-9]*/g, "");
   const file = path.resolve(cwd, `to内网${receiveUser}${legalDateStr}.zip`);
@@ -58,6 +58,9 @@ function startLocalNpm() {
   return new Promise(resolve => {
     const thread = spawn("node", ["local-npm.js"], {
       cwd: path.resolve(__dirname, "../build"),
+      env: Object.assign({}, process.env, {
+        NPM_TYPE: 'pull'
+      })
     });
     app.locals.localNpm = thread;
     const name = `node local-npm.js`;
@@ -122,6 +125,7 @@ async function npmInstall(cwd, packageArr) {
   }
   return thread;
 }
+
 
 function spawnWrap(command, args, opts) {
   return new Promise((resolve, reject) => {

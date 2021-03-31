@@ -1,4 +1,4 @@
 {
-    "ignore": ["tmp/*", "dist/*"],
-    "delay": "2500"
+    "ignore": ["tmp/*", "dist/*", "uploads/*"],
+    "delay": "1500"
 }

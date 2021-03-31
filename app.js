@@ -4,11 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var npmjsRouter = require('./api/npmjs.js');
+var pushRouter = require('./api/push.js');
 const ejs = require('ejs');
 const { getLocalNpmConfig } =require("./utils/utils");
 const { mirrorStorage, mirrorPath } = getLocalNpmConfig();
 
 var app = express();
+process.env.NPM_DOWNLOADING = false;
+process.env.NPM_UPLOAD = false;
 
 //设置跨域访问
 app.all('*', function(req, res, next) {
@@ -28,8 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/dist')));
-if(mirrorStorage){
-  console.log(mirrorPath)
+if(mirrorPath && !/^http/.test(mirrorPath)){
   app.use(mirrorPath, express.static(mirrorStorage));
 }
 
@@ -40,6 +42,7 @@ app.get('/', function(req, res){
 })
 
 app.use('/npmjs', npmjsRouter);
+app.use('/push', pushRouter);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
