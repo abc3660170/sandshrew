@@ -26,7 +26,7 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.2.1",
     "extract-zip": "^2.0.1",
-    "fee-local-npm": "^2.2.5",
+    "fee-local-npm": "^2.2.6",
     "fee-local-npm-intranet": "^1.0.0",
     "http-errors": "~1.6.3",
     "js-yaml": "~4.0.0",
