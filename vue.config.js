@@ -1,6 +1,5 @@
 var { getAppConfig } = require("./utils/utils");
 module.exports = {
-    assetsDir: 'packages/website/src/assets',
     chainWebpack: config => {
         config
             .plugin('define')
@@ -9,7 +8,6 @@ module.exports = {
                     ...args[0],
                     'VUE_APP_PORT': JSON.stringify(getAppConfig().port)
                 }
-                console.log(args)
                 return args
             })
     },

@@ -22,7 +22,6 @@ export default {
   },
   methods: {
     handleChange(title){
-      console.log(title)
       this.title = title
     }
   }
