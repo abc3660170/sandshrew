@@ -1,10 +1,11 @@
-var { getAppConfig } = require("./utils/utils");
+var { getAppConfig, frontType } = require("./utils/utils");
 module.exports = {
   chainWebpack: (config) => {
     config.plugin("define").tap((args) => {
       args[0]["process.env"] = {
         ...args[0],
         VUE_APP_PORT: JSON.stringify(getAppConfig().port),
+        FRONT_TYPE: JSON.stringify(frontType)
       };
       return args;
     });

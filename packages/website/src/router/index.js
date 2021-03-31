@@ -6,7 +6,7 @@ import Push from '../pages/push';
 export const routes = [
     {
         path: '/',
-        redirect: '/push'
+        redirect: process.env.FRONT_TYPE === 'pelipper' ? '/push' : '/pull'
     },
     {
         path: '/push',

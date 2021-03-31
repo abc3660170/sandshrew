@@ -38,7 +38,7 @@
     </el-main>
     <el-footer class="footer"
       >
-      <router-link to="/push">
+      <router-link to="/push" v-if="showPushLink">
         去导入界面
       </router-link>
       </el-footer
@@ -62,6 +62,7 @@ export default {
       detail: null,
       keyword: '',
       picked: new Set(),
+      showPushLink: process.env.FRONT_TYPE === 'pelipper'
     };
   },
   components: {
