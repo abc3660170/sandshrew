@@ -58,7 +58,7 @@ module.exports.getEnvs = function(type){
         if (Object.hasOwnProperty.call(binaryHosts, key)) {
             let host = mirrorPath
             if(!/^http/.test(mirrorPath)){
-                host = `http://${_getLocalIPv4Address()}:${_getAppConfig().port}`;
+                host = `http://${_getLocalIPv4Address()}:${_getAppConfig().port}/${mirrorPath}`;
             }
             const binaryHost = `${host}/${binaryHosts[key]}`;
             result.push(`--${key}=${binaryHost}`); 
