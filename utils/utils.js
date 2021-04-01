@@ -1,10 +1,10 @@
 var yaml = require('js-yaml');
 var path = require('path');
 var fs = require('fs');
+var spawn = require('child_process').spawn;
 const { networkInterfaces } = require('os');
 const nets = networkInterfaces();
-
-var configFile = path.resolve(__dirname, '../config.yml');
+var configFile = path.resolve(__dirname, process.env.SANDSHREW_CONFIG || '../config.yml');
 const doc = yaml.load(fs.readFileSync(configFile));
 
 module.exports.frontType = doc['front-type'];
@@ -68,3 +68,28 @@ module.exports.isBusy = function(){
 
     return process.env.NPM_DOWNLOADING !== 'false' || process.env.NPM_UPLOAD !== 'false';
 }
+
+
+module.exports.spawnWrap = (command, args, opts) => {
+    return new Promise((resolve, reject) => {
+      let errors = '';
+      const thread = spawn(command, args, opts);
+      const name = `${command} ${args.join(" ")}`;
+      thread.stdout.on("data", (data) => {
+        console.log(`${name}:${data}`);
+      });
+      thread.stderr.on("data", (error) => {
+        errors = errors + '\n' + error.toString('utf-8');
+        // reject(error);
+      });
+      thread.on("close", () => {
+        setTimeout(() => {
+          if(errors.length > 0){
+            reject(errors);
+          } else {
+            resolve(thread);
+          }
+        }, 3000);
+      });
+    });
+  }
