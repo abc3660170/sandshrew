@@ -164,7 +164,7 @@ function localInstall(ws) {
     // 开始安装
     const thread = spawn(
       /^win/.test(process.platform) ? "npm.cmd" : "npm",
-      ["install", "--force", ...getEnvs('push')],
+      ["install", "--force", "--unsafe-perm", ...getEnvs('push')],
       {
         cwd: projectCwd
       }
