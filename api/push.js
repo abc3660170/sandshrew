@@ -99,7 +99,7 @@ async function restartVerdaccio() {
   if (/^win/.test(process.platform)) {
     return Promise.resolve();
   }
-  return await spawnWrap("pm2", ["restart", "verdaccio"]);
+  return await spawnWrap("pm2", ["restart", "pelipper"]);
 }
 
 /**
