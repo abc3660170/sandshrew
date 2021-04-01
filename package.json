@@ -7,7 +7,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "npm run build && npm run start:service",
+    "start": "node start.js",
     "dev": "run-p dev:service serve",
     "dev:service": "nodemon ./build/bin/www",
     "start:service": "node ./build/bin/www",
