@@ -6,7 +6,7 @@ var rimraf = require("rimraf");
 var fs = require("fs");
 var extractZip = require("extract-zip");
 const { spawn } = require("child_process");
-const { getLocalNpmConfig, isBusy } = require("../utils/utils");
+const { isBusy, getEnvs } = require("../utils/utils");
 var app = express();
 
 var upload = multer({ dest: "uploads/" });
@@ -161,11 +161,10 @@ function localInstall(ws) {
       return reject(error);
     }
 
-    const { remote } = getLocalNpmConfig();
     // 开始安装
     const thread = spawn(
       /^win/.test(process.platform) ? "npm.cmd" : "npm",
-      ["install", "--force", `--registry=${remote}`],
+      ["install", "--force", ...getEnvs('push')],
       {
         cwd: projectCwd
       }

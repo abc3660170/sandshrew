@@ -49,9 +49,9 @@ function _getLocalIPv4Address(){
 
 module.exports.getLocalIPv4Address = _getLocalIPv4Address
 
-module.exports.getEnvs = function(){
+module.exports.getEnvs = function(type){
     var configFile = path.resolve(__dirname, '../mirror.yml');
-    const { url: npmRegistry, mirrorPath } = _getLocalNpmConfig();
+    const { url: npmRegistry, mirrorPath, remote } = _getLocalNpmConfig();
     const binaryHosts = yaml.load(fs.readFileSync(configFile));
     const result = [];
     for (const key in binaryHosts) {
@@ -64,7 +64,7 @@ module.exports.getEnvs = function(){
             result.push(`--${key}=${binaryHost}`); 
         }
     }
-    result.push(`--registry=${npmRegistry}`);
+    result.push(`--registry=${type === 'pull' ? npmRegistry : remote}`);
     return result;
 }
 
