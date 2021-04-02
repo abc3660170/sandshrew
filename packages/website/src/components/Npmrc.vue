@@ -30,11 +30,7 @@ export default {
       this.getAxios()
         .get(`/npmrc/`)
         .then((response) => {
-          console.log(response.data)
-          for (const item of response.data) {
-            const matcher = /-*(.+)/.exec(item);
-            this.configs.push(matcher[1]);
-          }
+          this.configs = response.data
         })
         .catch((e) => {
          console.log(e)
