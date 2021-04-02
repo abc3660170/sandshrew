@@ -4,8 +4,8 @@
       <div class="inner">
         <div class="logo"></div>
       <div class="title">{{ title }}</div>
+      <npmrc></npmrc>
       </div>
-      
     </header>
     <div class="main">
       <router-view @title-change="handleChange"></router-view>
@@ -13,8 +13,12 @@
   </div>
 </template>
 <script>
+import Npmrc from "./components/Npmrc";
 export default {
   name: "App",
+  components:{
+    Npmrc
+  },
   data(){
     return {
       title: ''
@@ -31,6 +35,13 @@ export default {
 html{
   background: #E9EBEF;
 }
+ul{
+  list-style: none;
+  -webkit-padding-start: 0;
+}
+li{
+  list-style: none;
+}
 </style>
 <style lang="scss" scoped>
 header{
@@ -38,6 +49,7 @@ header{
   min-height: 60px;
   box-shadow: 1px 0px 8px rgba(#1b2538, 0.4);
   .inner{
+    position: relative;
     width: 1200px;
     margin: 0 auto;
     display: flex;

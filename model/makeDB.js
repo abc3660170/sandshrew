@@ -2,7 +2,7 @@ var path = require("path");
 var express = require("express");
 const { spawn } = require("child_process");
 var app = express();
-var { getNPMCommand, getEnvs } = require("../utils/utils");
+var { getNPMCommand, getEnvs, spawnWrap } = require("../utils/utils");
 var mkdirp = require("mkdirp");
 var MyError = require("../utils/MyError");
 var errorCode = require("../utils/errorCode");
@@ -124,31 +124,6 @@ async function npmInstall(cwd, packageArr) {
     throw new MyError('可能是因为安装的包太多了导致的', errorCode.MEMLOW);
   }
   return thread;
-}
-
-
-function spawnWrap(command, args, opts) {
-  return new Promise((resolve, reject) => {
-    let errors = '';
-    const thread = spawn(command, args, opts);
-    const name = `${command} ${args.join(" ")}`;
-    thread.stdout.on("data", (data) => {
-      console.log(`${name}:${data}`);
-    });
-    thread.stderr.on("data", (error) => {
-      errors = errors + '\n' + error.toString('utf-8');
-      // reject(error);
-    });
-    thread.on("close", () => {
-      setTimeout(() => {
-        if(errors.length > 0){
-          reject(errors);
-        } else {
-          resolve(thread);
-        }
-      }, 3000);
-    });
-  });
 }
 
 async function rmRf(file) {
