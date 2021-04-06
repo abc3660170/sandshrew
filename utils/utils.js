@@ -97,3 +97,7 @@ module.exports.spawnWrap = (command, args, opts) => {
       });
     });
   }
+
+  module.exports.extractVersion = version => {
+    return version.replace(/[\^|\~]/g, "");
+  }

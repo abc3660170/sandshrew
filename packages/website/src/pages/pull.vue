@@ -38,6 +38,15 @@
     </el-main>
     <el-footer class="footer"
       >
+      <div class="uploadArea">
+        <input
+          type="file"
+          id="uploadPkg"
+          @change="handleChange"
+          style="display: none"
+        />
+        <el-button type="text" @click="trggerUpload">上传package.json</el-button>
+      </div>
       <router-link to="/push" v-if="showPushLink">
         去导入界面
       </router-link>
@@ -70,6 +79,35 @@ export default {
     DownloadList,
   },
   methods: {
+    trggerUpload() {
+      this.$el.querySelector("#uploadPkg").click();
+    },
+    handleChange(ev) {
+      const fileList = ev.target.files;
+      this.upload(fileList[0]);
+      ev.target.value = "";
+    },
+    upload(file) {
+      this.uploading = true;
+      const uploadFormData = new FormData(); //创建form对象
+      uploadFormData.append("file", file); //通过append向form对象添加数据
+      this.getAxios()
+        .post("/npmjs/resolvePkg", uploadFormData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          timeout: 0,
+        })
+        .then((res) => {
+          this.picked = new Set(res.data);
+        }).catch(() => {
+          this.$notify.error({
+              title: '解析失败',
+              message: '你上传的package.json有问题啊',
+              duration: 0
+          });
+        })
+    },
     fetchPackageList(q) {
       this.loading = true;
       this.detail = null;

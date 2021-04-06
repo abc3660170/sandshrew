@@ -6,7 +6,7 @@ var rimraf = require("rimraf");
 var fs = require("fs");
 var extractZip = require("extract-zip");
 const { spawn } = require("child_process");
-const { isBusy, getEnvs } = require("../utils/utils");
+const { isBusy, getEnvs, extractVersion } = require("../utils/utils");
 var app = express();
 
 var upload = multer({ dest: "uploads/" });
@@ -155,7 +155,7 @@ function localInstall(ws) {
     try {
       const pkgFile = path.resolve(projectCwd, "package.json");
       let content = fs.readFileSync(pkgFile, "utf-8");
-      content = content.replace(/[\^|\~]/g, "");
+      content = extractVersion(content);
       fs.writeFileSync(pkgFile, content, "utf-8");
     } catch (error) {
       return reject(error);

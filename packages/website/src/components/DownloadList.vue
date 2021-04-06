@@ -105,6 +105,6 @@ export default {
   padding: 4px;
 }
 .tag {
-  margin: 0 5px;
+  margin: 0 5px 5px 0;
 }
 </style>
