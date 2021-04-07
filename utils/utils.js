@@ -49,18 +49,22 @@ function _getLocalIPv4Address(){
 
 module.exports.getLocalIPv4Address = _getLocalIPv4Address
 
-module.exports.getEnvs = function(){
+module.exports.getEnvs = function(type){
     var configFile = path.resolve(__dirname, '../mirror.yml');
-    const { url: npmRegistry, mirrorPath } = _getLocalNpmConfig();
+    const { url: npmRegistry, mirrorPath, remote } = _getLocalNpmConfig();
     const binaryHosts = yaml.load(fs.readFileSync(configFile));
     const result = [];
     for (const key in binaryHosts) {
         if (Object.hasOwnProperty.call(binaryHosts, key)) {
-            const host = `${mirrorPath}/${binaryHosts[key]}`;
-            result.push(`--${key}=${host}`); 
+            let host = mirrorPath
+            if(!/^http/.test(mirrorPath)){
+                host = `http://${_getLocalIPv4Address()}:${_getAppConfig().port}${mirrorPath}`;
+            }
+            const binaryHost = `${host}/${binaryHosts[key]}`;
+            result.push(`--${key}=${binaryHost}`); 
         }
     }
-    result.push(`--registry=${npmRegistry}`);
+    result.push(`--registry=${type === 'pull' ? npmRegistry : remote}`);
     return result;
 }
 
@@ -92,4 +96,8 @@ module.exports.spawnWrap = (command, args, opts) => {
         }, 3000);
       });
     });
+  }
+
+  module.exports.extractVersion = version => {
+    return version.replace(/[\^|\~]/g, "");
   }

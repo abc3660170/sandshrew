@@ -2,10 +2,13 @@ var axios = require("axios");
 var express = require("express");
 var router = express.Router();
 var makeDB = require("../model/makeDB");
+var multer = require("multer");
 var app = express();
-var { frontType, isBusy } = require("../utils/utils");
+var { frontType, isBusy, extractVersion } = require("../utils/utils");
 var { INUSED } = require("../utils/errorCode");
+var upload = multer({ dest: "uploads/" });
 var { getSuggestions, getPackageDocument } = require("../model/pelipper");
+var fs = require('fs');
 /* GET users listing. */
 router.get("/suggestions", async function(req, res, next) {
   try {
@@ -73,5 +76,32 @@ router.post("/download", async function(req, res, next) {
     }
   }
 });
+
+router.post("/resolvePkg", upload.single("file"), async function (req, res, next) {
+    const file = req.file.path;
+    const result = [];
+    fs.readFile(file, 'utf-8', (err, data) => {
+      if(!err){
+        try {
+          const pkg = JSON.parse(data.toString());
+          const dependencies = pkg.dependencies;
+          const devDependencies = pkg.devDependencies;
+          const mergeDeps = Object.assign({}, dependencies, devDependencies);
+          for (const name in mergeDeps) {
+            if (Object.hasOwnProperty.call(mergeDeps, name)) {
+              const version = extractVersion(mergeDeps[name]);
+              result.push(`${name}@${version}`);
+            }
+          }
+          res.json(result);
+        } catch (err) {
+          res.status(500).json(err);
+        }
+      } else {
+        res.status(500).json(err);
+      }
+    })
+});
+
 
 module.exports = router;
