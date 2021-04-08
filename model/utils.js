@@ -4,5 +4,7 @@ var semver = require('semver');
 module.exports.extractVersion = async function(name, semverVersion) {
     const pkg = await getPackageDocument(name);
     const versions = getValidVersions(pkg);
-    return semver.maxSatisfying(versions, semverVersion)
+    const version = semver.maxSatisfying(versions, semverVersion)
+    return [name, version]
+    
 }

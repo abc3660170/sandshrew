@@ -65,12 +65,14 @@ router.post("/resolvePkg", upload.single("file"), async function (req, res, next
           const dependencies = pkg.dependencies;
           const devDependencies = pkg.devDependencies;
           const mergeDeps = Object.assign({}, dependencies, devDependencies);
+          const promises = [];
           for (const name in mergeDeps) {
             if (Object.hasOwnProperty.call(mergeDeps, name)) {
-              const version = await extractVersion(name, mergeDeps[name]);
-              result.push(`${name}@${version}`);
+              promises.push(extractVersion(name, mergeDeps[name]));
             }
           }
+          const versions = await Promise.all(promises);
+          result = versions.map(val => `${val[0]}@${val[1]}`)
           res.json(result);
         } catch (err) {
           res.status(500).json(err);
