@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { getValidVersions } from "../utils";
 export default {
   name: "PackageDetail",
 
@@ -56,10 +57,7 @@ export default {
   },
   computed: {
     sortedVersions() {
-      // 版本号从大到小排序，同时排除掉_fee_开头的内网空版本号
-      return Object.keys(this.modelValue.versions)
-        .reverse()
-        .filter((val) => !val.startsWith("_fee_"));
+      return getValidVersions(this.modelValue);
     },
   },
   methods: {
