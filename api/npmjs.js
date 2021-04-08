@@ -57,7 +57,7 @@ router.post("/download", async function(req, res, next) {
 
 router.post("/resolvePkg", upload.single("file"), async function (req, res, next) {
     const file = req.file.path;
-    const result = [];
+    let result = [];
     fs.readFile(file, 'utf-8', async (err, data) => {
       if(!err){
         try {
