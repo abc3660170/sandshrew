@@ -3,8 +3,8 @@ var express = require("express");
 var router = express.Router();
 var makeDB = require("../model/makeDB");
 var multer = require("multer");
-var app = express();
-var { frontType, isBusy, extractVersion } = require("../utils/utils");
+var { isBusy } = require("../utils/utils");
+var { extractVersion } = require("../model/utils");
 var { INUSED } = require("../utils/errorCode");
 var upload = multer({ dest: "uploads/" });
 var { getSuggestions, getPackageDocument } = require("../model/pelipper");
@@ -13,18 +13,7 @@ var fs = require('fs');
 router.get("/suggestions", async function(req, res, next) {
   try {
     const keyword = req.query.q;
-    let result;
-    if (frontType === "npmjs") {
-      const response = await axios.get(
-        `https://www.npmjs.com/search/suggestions?q=${keyword}`
-      );
-      result = response.data;
-    } else if (frontType === "pelipper") {
-      result = await getSuggestions(keyword);
-    } else {
-      throw new Error("frontType is not in ['npmjs, pelipper']");
-    }
-    res.json(result);
+    res.json(await getSuggestions(keyword));
   } catch (error) {
     next(error);
   }
@@ -33,18 +22,7 @@ router.get("/suggestions", async function(req, res, next) {
 router.get("/package/:name/document", async function(req, res, next) {
   try {
     const packageName = req.params.name;
-    let result;
-    if (frontType === "npmjs") {
-      const response = await axios.get(
-        `https://registry.npmjs.org/${packageName}`
-      );
-      result = response.data;
-    } else if (frontType === "pelipper") {
-      result = await getPackageDocument(packageName);
-    } else {
-      throw new Error("frontType is not in ['npmjs, pelipper']");
-    }
-    res.json(result);
+    res.json(await getPackageDocument(packageName));
   } catch (error) {
     next(error);
   }
@@ -79,20 +57,22 @@ router.post("/download", async function(req, res, next) {
 
 router.post("/resolvePkg", upload.single("file"), async function (req, res, next) {
     const file = req.file.path;
-    const result = [];
-    fs.readFile(file, 'utf-8', (err, data) => {
+    let result = [];
+    fs.readFile(file, 'utf-8', async (err, data) => {
       if(!err){
         try {
           const pkg = JSON.parse(data.toString());
           const dependencies = pkg.dependencies;
           const devDependencies = pkg.devDependencies;
           const mergeDeps = Object.assign({}, dependencies, devDependencies);
+          const promises = [];
           for (const name in mergeDeps) {
             if (Object.hasOwnProperty.call(mergeDeps, name)) {
-              const version = extractVersion(mergeDeps[name]);
-              result.push(`${name}@${version}`);
+              promises.push(extractVersion(name, mergeDeps[name]));
             }
           }
+          const versions = await Promise.all(promises);
+          result = versions.map(val => `${val[0]}@${val[1]}`)
           res.json(result);
         } catch (err) {
           res.status(500).json(err);

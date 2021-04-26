@@ -106,7 +106,7 @@ async function npmInstall(cwd, packageArr) {
   try {
     thread = await spawnWrap(
       npm,
-      ["install", ...packageArr, "--force", ...getEnvs('pull')],
+      ["install", "--unsafe-perm", ...packageArr, ...getEnvs('pull')],
       { 
         cwd
       }
