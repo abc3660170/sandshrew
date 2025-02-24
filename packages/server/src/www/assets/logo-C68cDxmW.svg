@@ -1,0 +1,141 @@
+<svg id="tail" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #c8ae70;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
+        stroke: #000;
+        stroke-width: 0.5px;
+      }
+
+      .cls-1, .cls-10, .cls-12, .cls-13, .cls-14, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2, .cls-8 {
+        fill: none;
+      }
+
+      .cls-3 {
+        fill: #e7cb7e;
+      }
+
+      .cls-12, .cls-14, .cls-4, .cls-7 {
+        fill: #fff;
+      }
+
+      .cls-5 {
+        fill: #eeebd3;
+      }
+
+      .cls-6 {
+        fill: #e3e1cf;
+      }
+
+      .cls-7, .cls-8 {
+        stroke-linecap: round;
+      }
+
+      .cls-9 {
+        fill: #e9e8d1;
+      }
+
+      .cls-10 {
+        stroke: #000102;
+        filter: url(#filter);
+      }
+
+      .cls-10, .cls-13 {
+        stroke-width: 1px;
+      }
+
+      .cls-11 {
+        fill: #0b4f88;
+        filter: url(#filter-2);
+      }
+
+      .cls-13 {
+        fill: #171f25;
+        filter: url(#filter-3);
+      }
+
+      .cls-13, .cls-14 {
+        stroke: #171f25;
+      }
+
+      .cls-14 {
+        stroke-width: 2px;
+      }
+    </style>
+    <filter id="filter" x="15.563" y="7.844" width="3.906" height="5.625" filterUnits="userSpaceOnUse">
+      <feImage preserveAspectRatio="none" x="15.5625" y="7.84375" width="3.906" height="5.625" result="image" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMy45MDYiIGhlaWdodD0iNS42MjUiIHZpZXdCb3g9IjAgMCAzLjkwNiA1LjYyNSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogdXJsKCNsaW5lYXItZ3JhZGllbnQpOwogICAgICB9CiAgICA8L3N0eWxlPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJsaW5lYXItZ3JhZGllbnQiIHgxPSIxLjk1MyIgeTE9IjUuNjI1IiB4Mj0iMS45NTMiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTM0ZTdhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwMDEwMiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iMy45MDYiIGhlaWdodD0iNS42MjUiLz4KPC9zdmc+Cg=="/>
+      <feComposite result="composite" operator="in" in2="SourceGraphic"/>
+      <feBlend result="blend" in2="SourceGraphic"/>
+    </filter>
+    <filter id="filter-2" x="15.906" y="11.469" width="2" height="1.844" filterUnits="userSpaceOnUse">
+      <feImage preserveAspectRatio="none" x="15.9063" y="11.4688" width="2" height="1.844" result="image" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMiIgaGVpZ2h0PSIxLjg0NCIgdmlld0JveD0iMCAwIDIgMS44NDQiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6IHVybCgjbGluZWFyLWdyYWRpZW50KTsKICAgICAgfQogICAgPC9zdHlsZT4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ibGluZWFyLWdyYWRpZW50IiB4MT0iMSIgeTE9IjEuODQ0IiB4Mj0iMSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxMzRlN2EiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIwLjQ1OCIgc3RvcC1jb2xvcj0iIzEzNGU3YSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMjcwODgiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgd2lkdGg9IjIiIGhlaWdodD0iMS44NDQiLz4KPC9zdmc+Cg=="/>
+      <feComposite result="composite" operator="in" in2="SourceGraphic"/>
+      <feBlend result="blend" in2="SourceGraphic"/>
+    </filter>
+    <filter id="filter-3" x="4.813" y="8.438" width="2.344" height="5.281" filterUnits="userSpaceOnUse">
+      <feImage preserveAspectRatio="none" x="4.8125" y="8.4375" width="2.344" height="5.281" result="image" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMi4zNDQiIGhlaWdodD0iNS4yODEiIHZpZXdCb3g9IjAgMCAyLjM0NCA1LjI4MSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogdXJsKCNyYWRpYWwtZ3JhZGllbnQpOwogICAgICB9CiAgICA8L3N0eWxlPgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJyYWRpYWwtZ3JhZGllbnQiIGN4PSIxLjE3MiIgY3k9IjIuNjQxIiByPSIyLjY0MSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMwMDAxMDIiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMTM0ZTdhIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCBjbGFzcz0iY2xzLTEiIHdpZHRoPSIyLjM0NCIgaGVpZ2h0PSI1LjI4MSIvPgo8L3N2Zz4K"/>
+      <feComposite result="composite" operator="in" in2="SourceGraphic"/>
+      <feBlend result="blend" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <path id="形状_37" data-name="形状 37" class="cls-1" d="M27.191,21.969s4.554,2.234,10.9-3.241c0,0,.651-1.522,1.031-0.589s-0.539,5.139-1.178,6.187c-0.614,1.007-2.507,3.995-4.861,5.3-1.364.758-5.573,2.823-6.334,1.62S27.191,21.969,27.191,21.969Z"/>
+  <path id="形状_39" data-name="形状 39" class="cls-2" d="M29.7,22.559a5.532,5.532,0,0,1,1.915,7.66"/>
+  <path id="形状_41" data-name="形状 41" class="cls-2" d="M32.641,21.969s4.149,0.356,3.241,5.3"/>
+  <path id="形状_55" data-name="形状 55" class="cls-3" d="M7.895,24.179s-1.742-.593-2.062,0-3.412,5.226.884,8.1c0,0-2.773.954-2.5,2.5s7.661,0.144,8.838-1.62c0,0,.1-0.348.147-0.589s0.59-.544.736-0.884-6.039-7.365-6.039-7.365V24.179Z"/>
+  <path id="形状_62" data-name="形状 62" class="cls-4" d="M5.98,34.048S5.612,32.571,4.065,33.9s-1.031,1.915-1.031,1.915l0.589-.147Z"/>
+  <path id="形状_61" data-name="形状 61" class="cls-4" d="M6.569,33.606s-2.724.929-2.946,2.357c0,0,2.456.414,3.83-.589S6.814,33.435,6.569,33.606Z"/>
+  <path id="形状_56" data-name="形状 56" class="cls-2" d="M4.654,27.714s2.873,0.708,4.272-.295"/>
+  <path id="形状_58" data-name="形状 58" class="cls-2" d="M5.39,30.955s3.683,1.15,6.481-.737"/>
+  <path id="形状_36" data-name="形状 36" class="cls-5" d="M6.569,14.162l14.288-1.326,3.388,6.629L23.067,28.6,20.71,32.281S14.4,33.668,10.1,29.04,6.09,15.157,6.569,14.162Z"/>
+  <path id="形状_12" data-name="形状 12" class="cls-3" d="M5.832,5.471S4.531,1.644,5.1.61c0,0,3.737-.027,4.419.589a8.736,8.736,0,0,1,8.691.442s5.357-1.471,5.745-.589a56.563,56.563,0,0,1-1.473,5.892s3.707,2.742,4.861,6.629c0,0,1.969,4.893.295,9.575a22.544,22.544,0,0,1-6.923,9.133s2.883-5.27,2.209-9.28c-0.614-3.656-1.507-7.422-3.977-8.985C15.993,12.148,7.3,12.662,7.453,12.837S6.3,5.857,5.98,5.619,5.832,5.471,5.832,5.471Z"/>
+  <path id="形状_14" data-name="形状 14" class="cls-6" d="M20.121,3.557l3.241-2.062S22.5,5.444,22.036,5.913C21.676,6.275,20.121,3.557,20.121,3.557Z"/>
+  <path id="形状_15" data-name="形状 15" class="cls-6" d="M5.243,1.2S6.682,2.97,6.569,3.851l-0.737.884S5.184,1.347,5.243,1.2Z"/>
+  <path id="形状_23" data-name="形状 23" class="cls-2" d="M28.222,19.76s-2.656,3.479-5.156,3.535"/>
+  <path id="形状_24" data-name="形状 24" class="cls-2" d="M26.455,21.528s-0.565-4.063-.884-4.272"/>
+  <path id="形状_25" data-name="形状 25" class="cls-2" d="M23.509,18.876s3.678-2.708,3.683-5.3"/>
+  <path id="形状_27" data-name="形状 27" class="cls-2" d="M23.067,7.534a8.589,8.589,0,0,1-2.357,8.1"/>
+  <path id="形状_45" data-name="形状 45" class="cls-3" d="M29.431,34.052s0.317-.419,1.148-4.128C31.3,26.694,29.9,23.983,27.339,23A5.071,5.071,0,0,0,21.3,24.179c-2.556,2.337-1.647,6-1.178,7.218a6.043,6.043,0,0,0,4.419,3.683,2.012,2.012,0,0,0,.736,2.651c1.249,0.739,4.118,0,4.419-.589A2.891,2.891,0,0,0,29.431,34.052Z"/>
+  <path id="形状_47" data-name="形状 47" class="cls-7" d="M27.191,36.847a1.271,1.271,0,0,1,1.768-.589,1.173,1.173,0,0,1,.442,1.326s-0.8,2.525-1.326,2.5S27.36,37.962,27.191,36.847Z"/>
+  <path id="形状_46" data-name="形状 46" class="cls-7" d="M27.191,36.847s-1.075-1.889-2.209.442c0,0,1.474,2.483,2.209,2.5a3.218,3.218,0,0,0,.295-0.295C27.545,39.414,27.191,36.847,27.191,36.847Z"/>
+  <path id="形状_48" data-name="形状 48" class="cls-2" d="M28.959,34.048a1.729,1.729,0,0,1-.737.589"/>
+  <path id="形状_52" data-name="形状 52" class="cls-8" d="M24.54,28.156s4.576-.013,5.008-2.8"/>
+  <path id="形状_53" data-name="形状 53" class="cls-8" d="M28.222,27.125a6.945,6.945,0,0,1,.589,4.419"/>
+  <path id="形状_54" data-name="形状 54" class="cls-8" d="M22.919,28.451s0.047,3.172,1.031,3.977"/>
+  <path id="形状_28" data-name="形状 28" class="cls-3" d="M18.206,17.55s-0.417-2.119,2.357-2.652,3.943,2.359,4.125,2.8c0.343,0.83.9,3.717-3.093,5.892s-5.6.736-5.6,0.736-2.662-.484-1.178-3.83C16.178,17.43,18.206,17.55,18.206,17.55Z"/>
+  <path id="形状_33" data-name="形状 33" class="cls-4" d="M14.965,20.938s-1.6.768-1.62,1.178a7.278,7.278,0,0,0,1.326.295A1.746,1.746,0,0,0,14.965,20.938Z"/>
+  <path id="形状_35" data-name="形状 35" class="cls-4" d="M14.671,24.032a1.191,1.191,0,0,0,1.62.442s0.407-.646-0.147-0.737Z"/>
+  <path id="形状_34" data-name="形状 34" class="cls-4" d="M15.7,22.706a2.089,2.089,0,0,0-2.062,1.178s2.44,0.3,2.8-.147A1.043,1.043,0,0,0,15.7,22.706Z"/>
+  <path id="形状_29" data-name="形状 29" class="cls-2" d="M24.393,16.814s-1.124,2.595-2.5,3.241c0,0,.26-2.5-3.683-2.5"/>
+  <path id="形状_31" data-name="形状 31" class="cls-2" d="M18.5,20.5s2.087-2.413,2.8-2.062"/>
+  <path id="形状_30" data-name="形状 30" class="cls-2" d="M15.7,19.171s3.086,0.092,3.535,2.21a3.092,3.092,0,0,1-1.178,3.388"/>
+  <path id="形状_16" data-name="形状 16" class="cls-3" d="M6.421,13.868s-3.1,1.476-3.093,4.566,1.468,5.629,3.83,5.892,2.234-3.356,2.21-3.977a0.77,0.77,0,0,0-.295-0.736,9.55,9.55,0,0,0,.295-2.357C9.343,16.075,6.421,13.868,6.421,13.868Z"/>
+  <path id="形状_20" data-name="形状 20" class="cls-4" d="M7.895,22.117s-1.065.739-.589,1.473l2.357,0.147A9.945,9.945,0,0,0,7.895,22.117Z"/>
+  <path id="形状_21" data-name="形状 21" class="cls-4" d="M9.368,21.086s-1.007.326-.884,0.736a2.708,2.708,0,0,0,1.326.589A4.543,4.543,0,0,0,9.368,21.086Z"/>
+  <path id="形状_22" data-name="形状 22" class="cls-2" d="M7.305,23.737s-0.182.857,0.295,0.884a2.94,2.94,0,0,0,1.326-.736Z"/>
+  <path id="形状_17" data-name="形状 17" class="cls-2" d="M9.073,19.613A2.111,2.111,0,0,0,7.6,18.876c-1.352-.13-3.075.394-3.241,3.241"/>
+  <path id="形状_18" data-name="形状 18" class="cls-2" d="M5.1,19.613s-0.417-.7-0.147-3.241"/>
+  <path id="形状_1" data-name="形状 1" class="cls-3" d="M5.832,5.619s-2.308,6.039,2.21,10.164c2.31,2.109,1.851,2.481,3.977,2.062,0.829-.163,2.5-1.866,3.093-1.768s6.383-2.848,6.039-6.629-1.228-7.218-8.544-7.954A7.509,7.509,0,0,0,5.832,5.619Z"/>
+  <path id="形状_5" data-name="形状 5" class="cls-2" d="M7.158,12.395s0.985-2.7,4.714-2.062"/>
+  <path id="形状_7" data-name="形状 7" class="cls-2" d="M10.251,10.038s-0.2-2.723.295-3.535"/>
+  <path id="形状_9" data-name="形状 9" class="cls-2" d="M7.305,7.534s4.146-3.174,9.427.737"/>
+  <path id="形状_11" data-name="形状 11" class="cls-2" d="M13.787,6.65s1.9-3.6,2.946-4.124"/>
+  <path id="形状_4" data-name="形状 4" class="cls-9" d="M17.911,14.6c0.475-.359,2.521-2.472-0.147-3.83-1.538-.783-2-0.086-2.357.295a8.868,8.868,0,0,1-2.21,2.5c-1.24.767-2.866,1.387-4.419,0.295a8.984,8.984,0,0,1-2.357-2.651,0.761,0.761,0,0,0-1.178.295,11.86,11.86,0,0,0,2.5,3.977c1.559,1.669,2.455,3.192,3.977,3.093s1.427-.912,2.062-1.473C14.678,16.321,17.083,15.23,17.911,14.6Z"/>
+  <g style="fill: ; filter: url(#filter)">
+    <path id="形状_3" data-name="形状 3" class="cls-10" d="M19.237,8.712c-0.36-.9-2.1-1.611-3.093.589-1.187,2.627-.28,4.027,0,4.124a2.739,2.739,0,0,0,1.915-.737C18.39,12.385,20.065,10.774,19.237,8.712Z" style="stroke: inherit; filter: none; fill: inherit"/>
+  </g>
+  <use xlink:href="#形状_3" style="stroke: #000102; filter: none; fill: none"/>
+  <circle id="椭圆_1_拷贝" data-name="椭圆 1 拷贝" class="cls-11" cx="16.906" cy="12.391" r="1"/>
+  <path id="椭圆_1" data-name="椭圆 1" class="cls-12" d="M17.819,9.93c-0.348.812-.976,1.321-1.4,1.138a0.809,0.809,0,0,1-.368-0.8,3.207,3.207,0,0,1,.39-0.97c0.141-.24.354-0.689,0.557-1.014a0.7,0.7,0,0,1,.679-0.158C18.1,8.313,18.166,9.119,17.819,9.93Z"/>
+  <g style="fill: #171f25; filter: url(#filter-3)">
+    <path id="形状_2" data-name="形状 2" class="cls-13" d="M6.421,9.3S5.845,7.667,5.1,8.859c-0.927,1.476.638,4.91,1.768,4.861a0.869,0.869,0,0,0,.295-0.884c0-.339-0.243-0.907-0.295-1.473A7.03,7.03,0,0,0,6.421,9.3Z" style="stroke: inherit; filter: none; fill: inherit"/>
+  </g>
+  <use xlink:href="#形状_2" style="stroke: #171f25; filter: none; fill: none"/>
+  <path id="形状_2_拷贝" data-name="形状 2 拷贝" class="cls-14" d="M6.569,11.069a0.35,0.35,0,0,1-.368.147c-0.61,0-.957-0.472-0.957-1.326a2.24,2.24,0,0,1,.295-1.326c0.4-.185.589,0.884,0.589,0.884A8.33,8.33,0,0,1,6.569,11.069Z"/>
+</svg>

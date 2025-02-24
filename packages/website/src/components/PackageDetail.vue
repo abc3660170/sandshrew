@@ -27,50 +27,52 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button size="mini" type="primary" @click="handlePick"
+        <el-button size="default" type="primary" @click="handlePick"
           >选择此版本</el-button
         >
-        <el-button size="mini" @click="handleReturn">返回</el-button>
+        <el-button size="default" @click="handleReturn">返回</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
-<script>
-import { getValidVersions } from "../utils";
-export default {
-  name: "PackageDetail",
+<script lang="ts">
+import { defineComponent, computed, ref, PropType } from 'vue';
+import { getValidVersions } from '../utils';
+import type { Packument } from '@npm/types';
 
+export default defineComponent({
+  name: "PackageDetail",
   props: {
     modelValue: {
-      type: Object,
+      type: Object as PropType<Packument>,
+      required: true,
     },
-    // name: String,
-    // author: Object,
-    // versions: Array,
-    // distTags: Object,
   },
-  data() {
+  setup(props, { emit }) {
+    const version = ref(props.modelValue["dist-tags"].latest);
+
+    const sortedVersions = computed(() => {
+      return getValidVersions(props.modelValue);
+    });
+
+    const handlePick = () => {
+      emit("pick", `${props.modelValue.name}@${version.value}`);
+    };
+
+    const handleReturn = () => {
+      emit("update:modelValue", null);
+    };
+
     return {
-      version: this.modelValue["dist-tags"].latest,
+      version,
+      sortedVersions,
+      handlePick,
+      handleReturn,
     };
   },
-  computed: {
-    sortedVersions() {
-      return getValidVersions(this.modelValue);
-    },
-  },
-  methods: {
-    handlePick() {
-      this.$emit("pick", `${this.modelValue.name}@${this.version}`);
-    },
-    handleReturn() {
-      this.$emit("update:modelValue", null);
-    },
-  },
-};
+});
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>
