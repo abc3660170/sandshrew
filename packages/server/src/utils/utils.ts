@@ -3,6 +3,10 @@ import { ChildProcessWithoutNullStreams, spawn } from "child_process";
 import { FastifyInstance } from "fastify";
 import { networkInterfaces } from "os";
 import { getPackageDocument } from "../model/base.ts";
+import { PelipperConfig } from "src/types/index";
+import { resolve } from "path";
+import { createArchiveByFileExtension } from "@shockpkg/archive-files";
+import { accessSync, constants } from "fs";
 const nets = networkInterfaces();
 
 export const isBusy = (fastify: FastifyInstance) => {
@@ -118,4 +122,37 @@ export const extractVersion = async function(fastify: FastifyInstance, name: str
     return null;
   }
   return [name, version];
+}
+
+const getTgzFile = (fastify: FastifyInstance, name: string, version: string) => {
+  const { storage } = _getLocalNpmConfig(fastify) as PelipperConfig['pelipper'];
+  const outPkg = resolve(storage, name, `${version}.tgz`);
+  const matchResult = name.match(/[^\/]+$/);
+  const prefixTgz = matchResult ? matchResult[0] : '';
+  const innerPkg = resolve(storage, name, `${prefixTgz}-${version}.tgz`);
+  try {
+    accessSync(outPkg, constants.R_OK);
+    return outPkg
+  } catch (error) {
+    return innerPkg;
+  }
+}
+
+export const xx = async (tgz: string) => {
+  let result = '';
+  const archive = createArchiveByFileExtension(tgz);
+  await archive?.read(async (entry) => {
+    if (entry.path === 'package/README.md' || entry.path === 'package/readme.md') {
+      const buffer = await entry.read();
+      result = buffer?.toString('utf-8') || '# README.md not found';
+    }
+    return null;
+  })
+  return result;
+}
+
+
+export const getPackageReadme = async (fastify: FastifyInstance, name: string, version: string) => {
+  const tgz = getTgzFile(fastify, name, version);
+  return await xx(tgz);
 }

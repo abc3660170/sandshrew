@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import axios from 'axios';
+import { getAxios } from '../utils';
 
 export default defineComponent({
   name: 'Npmrc',
@@ -25,7 +25,7 @@ export default defineComponent({
     const configs = ref<string[]>([]);
 
     onMounted(() => {
-      axios.get('/npmrc/')
+      getAxios().get('/npmrc')
         .then((response) => {
           configs.value = response.data;
         })

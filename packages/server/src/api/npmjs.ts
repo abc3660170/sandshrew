@@ -1,9 +1,10 @@
 import { FastifyInstance } from "fastify";
 import { getSuggestions, getPackageDocument } from "../model/base.js";
-import { extractVersion, isBusy } from "../utils/utils.js";
+import { extractVersion, getPackageReadme, isBusy, xx } from "../utils/utils.js";
 import distill from "../model/distill.js";
-import { readFileSync } from "fs";
-import type { PackageJSON } from "@npm/types";
+import { readFile, readFileSync } from "fs";
+import type { PackageJSON, Packument } from "@npm/types";
+import { resolve } from "path";
 
 export default async (
   fastify: FastifyInstance,
@@ -136,4 +137,67 @@ export default async (
       return reply.status(500).send(error)
     }
   });
+
+  // [get] /npmjs/:name/:version/readme
+  fastify.get<{
+    Params: {
+      name: string;
+      version: string;
+    };
+  }>(
+    `${options.routePrefix}/:name/:version/readme`,
+    {
+      schema: {
+        params: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            version: { type: "string" },
+          },
+        },
+      },
+    },
+    async (request, reply) => {
+      const { name, version } = request.params;
+      try {
+        const doc = await getPackageReadme(fastify, name, version);
+        return reply.send(doc);
+      } catch (error) {
+        return reply.status(500).send({
+          error,
+        });
+      }
+    }
+  );
+
+  fastify.get<{
+    Params: {
+      name: string;
+      version: string;
+    };
+  }>(
+    `${options.routePrefix}/test/vue/3.5.13/readme`,
+    {
+      schema: {
+        params: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            version: { type: "string" },
+          },
+        },
+      },
+    },
+    async (_, reply) => {
+       const pkg = resolve(process.cwd(), "./src/test/vue/3.5.13.tgz");
+       try {
+        const doc = await xx(pkg);
+        return reply.send(doc);
+      } catch (error) {
+        return reply.status(500).send({
+          error,
+        });
+      }
+    }
+  );
 };

@@ -1,12 +1,14 @@
 import Fastify from "fastify";
-import cors from "@fastify/cors";
 import npmrcRoute  from "./api/npmrc.ts";
 import npmjsRoute  from "./api/npmjs.ts";
 import pushRoute  from "./api/push.ts";
 import envRoute  from "./api/env.ts";
+import cors from '@fastify/cors'
+import fastifyMultipart from '@fastify/multipart'
+import fastifyCompress from '@fastify/compress'
+import fastifyStatic from '@fastify/static'
 import { UnknowRegistryConfig } from "./types/index";
 import { join } from "path";
-import { fileURLToPath } from "url";
 
 const fastify = Fastify({
   requestTimeout: 0,
@@ -33,20 +35,20 @@ const fastify = Fastify({
 //   reply.header('Access-Control-Allow-Headers', 'Content-Type');
 //   return { hello: 'world' };
 // });
-
 await fastify.register(cors);
-fastify.register(import('@fastify/multipart'), { attachFieldsToBody: 'keyValues' });
+await fastify.register(fastifyMultipart, { attachFieldsToBody: 'keyValues' });
 
-await fastify.register(import("@fastify/compress"), { global: true, encodings: ['gzip', 'deflate'] });
-
-fastify.register(import("@fastify/static"), {
-  root: join(fileURLToPath(import.meta.url), '../www'),
+await fastify.register(fastifyCompress, { global: true, encodings: ['gzip', 'deflate'] });
+const projectRoot = process.cwd();
+const wwwRoot = join(projectRoot, 'src/www');
+await fastify.register(fastifyStatic, {
+  root: wwwRoot,
   prefix: '/', // optional: default '/'
 })
 
-export const start = async (options: UnknowRegistryConfig, mirrorConfig: Record<string, string>) => {
+export const start = async (options: UnknowRegistryConfig) => {
   fastify.decorate('REGISTER_CONFIG', options as any);
-  fastify.decorate('MIRROR_CONFIG', mirrorConfig as any);
+  fastify.decorate('MIRROR_CONFIG', options.mirror as any);
   fastify.globalState = {
     npmDownloading: false,
     npmUploding: false,

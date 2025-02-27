@@ -1,4 +1,4 @@
-import { PackageJSON } from "@npm/types";
+import { Packument } from "@npm/types";
 import axios from "axios";
 import { FastifyInstance } from "fastify";
 import { readdir, readFile } from "fs";
@@ -54,7 +54,7 @@ export async function getSuggestions(
 }
 
 
-export const  getPackageDocument = async (pkgName: string,  fastify: FastifyInstance): Promise<PackageJSON> => {
+export const  getPackageDocument = async (pkgName: string,  fastify: FastifyInstance): Promise<Packument> => {
   const { fronttype } =  fastify.REGISTER_CONFIG;
   if (fronttype === "npmjs") {
     const response = await axios.get(

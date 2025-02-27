@@ -4,22 +4,12 @@ export default async (
   fastify: FastifyInstance,
   options: { routePrefix: string }
 ) => {
-    // [get] /npmjs/
+    // [get] /npmrc
   fastify.get(
-    `${options.routePrefix}/`,
-    {
-      schema: {
-        params: {
-          type: "object",
-          properties: {
-            keyword: { type: "string" },
-          },
-        },
-      },
-    },
+    `${options.routePrefix}`,
     async (_, reply) => {
       try {
-        const config = getEnvs(fastify, 'pull').map(item => {
+        const config = getEnvs(fastify, 'push').map(item => {
             // 去掉配置项前面的 -- 
             const matcher = /-*(.+)/.exec(item);
             return matcher![1]

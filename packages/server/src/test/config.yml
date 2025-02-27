@@ -1,4 +1,4 @@
-fronttype: 'pelipper'           # pelipper or npmjs 
+fronttype: 'npmjs'           # pelipper or npmjs 
 tmp: '/volume1/homes/abc3660170/remote-development/sandshrew/tmp' ## 临时目录：local-npm 数据目录，临时项目，待下载的文件
 
 app:
@@ -33,4 +33,11 @@ pelipper:
   mirrorPath: http://127.0.0.1:3002
 
   # 二进制绑定数据
-  mirrorStorage: /Users/chentao/pelipper/conf/storage 
+  mirrorStorage: /Users/chentao/pelipper/conf/storage
+
+mirror:
+  leveldown_binary_host: leveldown
+  sass_binary_site: node-sass
+  phantomjs_cdnurl: phantomjs
+  electron_mirror: electron
+  chromedriver_cdnurl: chromedriver

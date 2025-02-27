@@ -1,6 +1,4 @@
 import { FastifyInstance } from "fastify";
-import { fileURLToPath } from "url";
-
 import path, { resolve } from "path";
 import { spawn } from "child_process";
 import { getNPMCommand, getEnvs, spawnWrap, getLocalNpmConfig } from "../utils/utils.ts";
@@ -10,6 +8,7 @@ import errorCode from "../utils/errorCode.ts";
 import fs, { readFileSync } from "fs";
 import { rimraf } from "rimraf";
 const npm = getNPMCommand();
+const projectRoot = process.cwd();
 
 /**
  * 生成包数据库（pouchDB）
@@ -63,7 +62,7 @@ async function downloadZipFile(cwd: string, receiveUser = "陈涛") {
 
 function startLocalNpm(fastify: FastifyInstance, cwd: string ) {
   const thread = spawn("node", ["local-npm.js"], {
-    cwd: resolve(fileURLToPath(import.meta.url), "../../spawn"),
+    cwd: resolve(projectRoot, "src/spawn"),
     env: Object.assign({}, process.env, {
       NPM_TYPE: 'pull',
       CONFIG: JSON.stringify(getLocalNpmConfig(fastify)),

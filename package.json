@@ -3,14 +3,17 @@
   "version": "2.0.0",
   "description": "npm packages grab tool",
   "author": "tchen",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node start.js",
+    "start": "pnpm  --filter @sandshrew/server run start",
     "dev": "npm-run-all --parallel dev:server dev:website",
     "dev:website": "pnpm --filter @sandshrew/website run dev",
+    "build": "npm run build:website && npm run deploy:website && npm run build:server",
     "build:website": "pnpm --filter @sandshrew/website run build",
     "build:server": "pnpm --filter @sandshrew/server run build",
     "deploy:website": "pnpm --filter @sandshrew/website run deploy",
+    "deploy": "npm run build && node deploy.js",
     "dev:server": "pnpm  --filter @sandshrew/server run dev"
   },
   "main": "index.js",

@@ -156,7 +156,7 @@ export default defineComponent({
 
     onMounted(async () => {
       const { fronttype } = await getEnv();
-      showPushLink.value = fronttype === 'npmjs';
+      showPushLink.value = fronttype === 'pelipper';
       emit('title-change', 'NPM包-导出');
     });
 

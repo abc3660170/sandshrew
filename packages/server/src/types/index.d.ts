@@ -12,7 +12,8 @@ export type NpmjsConfig = {
         mirrorPath: string,
         remote: string,
         mirror: string
-    }
+    },
+    mirror: string[]
 }
 
 export type PelipperConfig = {
@@ -27,7 +28,8 @@ export type PelipperConfig = {
         storage: string,
         mirrorPath: string,
         mirrorStorage: string
-    }
+    },
+    mirror: Record<string, string>
 }
 
 export type UnknowRegistryConfig = NpmjsConfig | PelipperConfig;

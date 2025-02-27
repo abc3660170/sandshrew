@@ -1,23 +1,24 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import path from "path";
-import { rimraf } from "rimraf";
+import { sync } from "rimraf";
 import fs, { mkdirSync } from "fs";
 import extractZip from "extract-zip";
 import { spawn, ChildProcess } from "child_process";
 import { isBusy, getEnvs, spawnWrap, getLocalNpmConfig } from "../utils/utils.ts";
-import { fileURLToPath } from "url";
 let localNpmThread: ChildProcess | null = null;
+const projectRoot = process.cwd();
+
 
 async function cutoff(fastify: FastifyInstance, options: {
   workspace: string;
-}): Promise<void> {
+}) {
   // 关闭协local-npm
   localNpmThread && localNpmThread.kill("SIGINT");
   localNpmThread = null;
   // 清理上传目录
   // await clean(options.uploadsFolder);
   // 清理工作目录
-  await clean(fastify, options.workspace);
+  clean(fastify, options.workspace);
   fastify.globalState.npmUploding = false;
 }
 
@@ -49,7 +50,7 @@ export default async (fastify: FastifyInstance, options: { routePrefix: string }
       localNpmThread = await StartLocalNpmThread(fastify, workspace);
       try {
         // 解压上传后的附件
-        const ws = await unzipFile(fastify, file, workspace);
+        const ws = await unzipFile(file, workspace);
         // 本地安装
         await localInstall(fastify, ws);
       } catch (error) {
@@ -81,12 +82,10 @@ const writeFile = (file: string, data: Buffer): Promise<string> => {
 
 function endReq(fastify: FastifyInstance, reply: FastifyReply, code: number, errors: string[] = []) {
   fastify.globalState.npmUploding  = false;
-  return reply.status(code).send({ code, errors });
+  return reply.send({ code, errors });
 }
 
-async function unzipFile(fastify: FastifyInstance, file: string, workspace: string): Promise<string> {
-  // 清理工作目录
-  await clean(fastify, workspace);
+async function unzipFile( file: string, workspace: string): Promise<string> {
   // 解压文件到工作目录
   await extractZip(file, { dir: workspace });
   return workspace;
@@ -103,7 +102,7 @@ async function restartVerdaccio(): Promise<void> {
 async function StartLocalNpmThread(fastify: FastifyInstance, workspace: string): Promise<ChildProcess> {
   return new Promise((resolve) => {
     const thread = spawn("node", ["local-npm.js"], { 
-      cwd: path.resolve(fileURLToPath(import.meta.url), "../../spawn"),
+      cwd: path.resolve(projectRoot, "src/spawn"),
       env: Object.assign({}, process.env, {
         CONFIG: JSON.stringify(getLocalNpmConfig(fastify)),
         NPM_TYPE: 'push',
@@ -121,9 +120,9 @@ async function StartLocalNpmThread(fastify: FastifyInstance, workspace: string):
       fastify.log.info("=========== local-npm 熄火了 ============");
       fastify.log.info("========================================");
     });
-    // setTimeout(() => {
+    setTimeout(() => {
       resolve(thread);
-    // }, 2000);
+    }, 2000);
   });
 }
 
@@ -193,9 +192,9 @@ async function localInstall(fastify: FastifyInstance, ws: string): Promise<void>
   });
 }
 
-async function clean(fastify: FastifyInstance, folder: string): Promise<void> {
+function clean(fastify: FastifyInstance, folder: string) {
   try {
-    await rimraf(`${folder}/*`);
+    sync(`${folder}`);
   } catch (err) {
     fastify.log.error(`清理文件夹失败:${folder}`);
     throw new err;

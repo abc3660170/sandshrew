@@ -21,3 +21,7 @@ export const getEnv = async () => {
       .get<any>(`/env/`))
     return res.data
 }
+
+export const isDev = () => {
+  return (import.meta as any).env.DEV;
+}
