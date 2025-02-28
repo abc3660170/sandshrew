@@ -46,11 +46,11 @@ export default async (fastify: FastifyInstance, options: { routePrefix: string }
       const file = await writeFile(`${uploadsFolder}/upload.zip`, data)
       await cleanCache();
       await restartVerdaccio();
-      // 启动协local-npm(强制成功，不会抛异常)
-      localNpmThread = await StartLocalNpmThread(fastify, workspace);
       try {
         // 解压上传后的附件
         const ws = await unzipFile(file, workspace);
+        // 启动协local-npm(强制成功，不会抛异常)
+        localNpmThread = await StartLocalNpmThread(fastify, workspace);
         // 本地安装
         await localInstall(fastify, ws);
       } catch (error) {
@@ -58,7 +58,6 @@ export default async (fastify: FastifyInstance, options: { routePrefix: string }
         fastify.log.error("========= localInstall安装异常 ==========");
         fastify.log.error(errors);
       } finally {
-        localNpmThread.kill("SIGINT");
         await cutoff(fastify, { workspace });
         if (errors.length > 0) {
           return endReq(fastify, reply, 500, errors);
@@ -193,6 +192,7 @@ async function localInstall(fastify: FastifyInstance, ws: string): Promise<void>
 }
 
 function clean(fastify: FastifyInstance, folder: string) {
+  fastify.log.debug(`清理文件夹:${folder}`);
   try {
     sync(`${folder}`);
   } catch (err) {
