@@ -36,8 +36,7 @@
         ></package-detail>
       </div>
     </el-main>
-    <el-footer class="footer"
-      >
+    <el-footer class="footer">
       <div class="uploadArea">
         <input
           type="file"
@@ -45,53 +44,66 @@
           @change="handleChange"
           style="display: none"
         />
-        <el-button type="text" @click="trggerUpload">上传package.json</el-button>
+        <el-button type="primary" @click="triggerUpload">上传package.json</el-button>
       </div>
       <router-link to="/push" v-if="showPushLink">
         去导入界面
       </router-link>
-      </el-footer
-    >
+    </el-footer>
   </el-container>
 </template>
 
-<script>
-import PackageDetail from "../components/PackageDetail";
+<script lang="ts">
+import { defineComponent, ref, onMounted } from 'vue';
+import PackageDetail from "../components/PackageDetail.vue";
 import debounce from "debounce";
-import mixins from "../mixins/mixins";
-import DownloadList from "../components/DownloadList";
-export default {
+import DownloadList from "../components/DownloadList.vue";
+import { getAxios, getEnv } from "../utils";
+import { ElNotification } from 'element-plus';
+
+export default defineComponent({
   name: "Pull",
-  mixins: [mixins],
-  data() {
-    return {
-      list: [],
-      loading: false,
-      downloading: false,
-      detail: null,
-      keyword: '',
-      picked: new Set(),
-      showPushLink: process.env.FRONT_TYPE === 'pelipper'
-    };
-  },
   components: {
     PackageDetail,
     DownloadList,
   },
-  methods: {
-    trggerUpload() {
-      this.$el.querySelector("#uploadPkg").click();
-    },
-    handleChange(ev) {
-      const fileList = ev.target.files;
-      this.upload(fileList[0]);
-      ev.target.value = "";
-    },
-    upload(file) {
-      this.uploading = true;
-      const uploadFormData = new FormData(); //创建form对象
-      uploadFormData.append("file", file); //通过append向form对象添加数据
-      this.getAxios()
+  setup(_, { emit }) {
+    const list = ref<any[]>([]);
+    const loading = ref(false);
+    const downloading = ref(false);
+    const detail = ref<any>(null);
+    const keyword = ref('');
+    const picked = ref<Set<string>>(new Set());
+    const showPushLink = ref(false);
+    const uploading = ref(false);
+
+    const getSuggestion = debounce(async (q: string, callback: any) => {
+      try {
+        const response = await getAxios().get(`/npmjs/suggestions?q=${q}`);
+        callback(null, response.data);
+      } catch (e) {
+        callback(e);
+      }
+    }, 400);
+
+    const triggerUpload = () => {
+      document.getElementById("uploadPkg")?.click();
+    };
+
+    const handleChange = (ev: Event) => {
+      const input = ev.target as HTMLInputElement;
+      if (input.files && input.files.length > 0) {
+        const fileList = input.files;
+        upload(fileList[0]);
+        input.value = "";
+      }
+    };
+
+    const upload = (file: File) => {
+      uploading.value = true;
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", file);
+      getAxios()
         .post("/npmjs/resolvePkg", uploadFormData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -99,56 +111,73 @@ export default {
           timeout: 0,
         })
         .then((res) => {
-          this.picked = new Set(res.data);
-        }).catch(() => {
-          this.$notify.error({
-              title: '解析失败',
-              message: '你上传的package.json有问题啊',
-              duration: 0
+          picked.value = new Set(res.data);
+        })
+        .catch(() => {
+          ElNotification.error({
+            title: '解析失败',
+            message: '你上传的package.json有问题啊',
+            duration: 0,
           });
         })
-    },
-    fetchPackageList(q) {
-      this.loading = true;
-      this.detail = null;
-      this.getSuggestion(q, (error, data) => {
-        this.loading = false;
+        .finally(() => {
+          uploading.value = false;
+        });
+    };
+
+    const fetchPackageList = (q: string) => {
+      loading.value = true;
+      detail.value = null;
+      getSuggestion(q, (error: Error, data: any) => {
+        loading.value = false;
         if (!error) {
-          this.list = data;
+          list.value = data;
         }
       });
-    },
-    async fetchPackage(packageName) {
-      const response = await this.getAxios().get(
+    };
+
+    const fetchPackage = async (packageName: string) => {
+      const response = await getAxios().get(
         `/npmjs/package/${encodeURIComponent(packageName)}/document`
       );
-      this.detail = response.data;
-    },
+      detail.value = response.data;
+    };
 
-    handleReturn() {
-      this.detail = null;
-      this.keyword = "";
-      this.list = [];
-    },
-    handlePicked(val) {
-      this.picked.add(val);
-      this.handleReturn();
-    },
+    const handleReturn = () => {
+      detail.value = null;
+      keyword.value = "";
+      list.value = [];
+    };
+
+    const handlePicked = (val: string) => {
+      picked.value.add(val);
+      handleReturn();
+    };
+
+    onMounted(async () => {
+      const { fronttype } = await getEnv();
+      showPushLink.value = fronttype === 'pelipper';
+      emit('title-change', 'NPM包-导出');
+    });
+
+    return {
+      list,
+      loading,
+      downloading,
+      detail,
+      keyword,
+      picked,
+      showPushLink,
+      uploading,
+      triggerUpload,
+      handleChange,
+      fetchPackageList,
+      fetchPackage,
+      handleReturn,
+      handlePicked,
+    };
   },
-  async created() {
-    this.$emit('title-change',  'NPM包-导出');
-    this.getSuggestion = debounce((q, callback) => {
-      this.getAxios()
-        .get(`/npmjs/suggestions?q=${q}`)
-        .then((response) => {
-          callback(null, response.data);
-        })
-        .catch((e) => {
-          callback(e);
-        });
-    }, 400);
-  },
-};
+});
 </script>
 
 <style>

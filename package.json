@@ -1,73 +1,22 @@
 {
   "name": "sandshrew",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "npm packages grab tool",
   "author": "tchen",
+  "type": "module",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "start": "node start.js",
-    "dev": "run-p dev:service serve",
-    "dev:service": "nodemon ./build/bin/www",
-    "start:service": "node ./build/bin/www",
-    "start:ln": "node build/bin/shell.js start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "pnpm  --filter @sandshrew/server run start",
+    "dev": "npm-run-all --parallel dev:server dev:website",
+    "dev:website": "pnpm --filter @sandshrew/website run dev",
+    "build": "npm run build:website && npm run deploy:website && npm run build:server",
+    "build:website": "pnpm --filter @sandshrew/website run build",
+    "build:server": "pnpm --filter @sandshrew/server run build",
+    "deploy:website": "pnpm --filter @sandshrew/website run deploy",
+    "deploy": "npm run build && node deploy.js",
+    "dev:server": "pnpm  --filter @sandshrew/server run dev"
   },
   "main": "index.js",
-  "dependencies": {
-    "axios": "~0.21.1",
-    "cookie-parser": "~1.4.5",
-    "core-js": "~3.8.3",
-    "debounce": "^1.2.0",
-    "debug": "~2.6.9",
-    "ejs": "^2.7.4",
-    "element3": "0.0.39",
-    "express": "^4.17.1",
-    "express-handlebars": "^5.2.1",
-    "extract-zip": "^2.0.1",
-    "fee-local-npm": "^2.2.6",
-    "fee-local-npm-intranet": "^1.0.0",
-    "http-errors": "~1.6.3",
-    "js-yaml": "~4.0.0",
-    "mkdirp": "^0.5.5",
-    "morgan": "~1.9.1",
-    "multer": "^1.4.2",
-    "normalize.css": "~8.0.1",
-    "rimraf": "^2.7.1",
-    "semver": "^7.3.2",
-    "vue": "^3.0.7",
-    "vue-router": "^4.0.5"
-  },
-  "devDependencies": {
-    "@types/node": "~14.14.22",
-    "@vue/cli-plugin-babel": "~4.5.11",
-    "@vue/cli-plugin-eslint": "~4.5.11",
-    "@vue/cli-service": "~4.5.11",
-    "@vue/compiler-sfc": "^3.0.7",
-    "babel-eslint": "~10.1.0",
-    "eslint": "~6.8.0",
-    "eslint-plugin-vue": "~7.5.0",
-    "nodemon": "^2.0.7",
-    "npm-run-all": "^4.1.5",
-    "sass": "~1.32.5",
-    "sass-loader": "~10.1.1",
-    "vue-loader-v16": "~16.0.0-beta.5.4"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
@@ -77,12 +26,19 @@
     "url": "https://github.com/abc3660170/npm-front/issues"
   },
   "engines": {
-    "node": ">=10.15.0"
+    "node": ">=16.14.0"
   },
   "homepage": "https://github.com/abc3660170/npm-front#readme",
   "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/abc3660170/npm-front.git"
+  },
+  "dependencies": {
+    "npm-run-all": "^4.1.5"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }

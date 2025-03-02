@@ -12,8 +12,8 @@
     </div>
   </div>
 </template>
-<script>
-import Npmrc from "./components/Npmrc";
+<script lang="ts">
+import Npmrc from "./components/Npmrc.vue";
 export default {
   name: "App",
   components:{
@@ -25,7 +25,7 @@ export default {
     }
   },
   methods: {
-    handleChange(title){
+    handleChange(title: string){
       this.title = title
     }
   }

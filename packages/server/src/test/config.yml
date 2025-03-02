@@ -1,0 +1,43 @@
+fronttype: 'npmjs'           # pelipper or npmjs 
+tmp: '/volume1/homes/abc3660170/remote-development/sandshrew/tmp' ## 临时目录：local-npm 数据目录，临时项目，待下载的文件
+
+app:
+  port: 18000  # 系统服务端口
+  
+
+
+# npmjs 是在互联网用的配置，请忽略。
+npmjs:
+  port: 18003
+  pouchPort: 6789
+  remote: http://registry.npmjs.org
+  mirrorPath: https://npm.taobao.org/mirrors
+
+
+# pelipper(大嘴鸥) 是部署到内网后需要大家谨慎配置的
+pelipper:
+
+  # 临时包存储服务仓库的registry端口，建议默认值
+  port: 18003
+
+  # 可用的端口即可，建议默认值
+  pouchPort: 6789
+
+  # 本台服务器pelipper仓库的包存储路径
+  storage: /Users/chentao/pelipper/conf/storage
+  
+  # 这里填写这台服务器pelipper仓库的registry地址
+  remote: http://0.0.0.0:1414
+
+  # 二进制数据的url路径: http://xxx.xxx.xxx.xxx:xx/mirrorPath
+  mirrorPath: http://127.0.0.1:3002
+
+  # 二进制绑定数据
+  mirrorStorage: /Users/chentao/pelipper/conf/storage
+
+mirror:
+  leveldown_binary_host: leveldown
+  sass_binary_site: node-sass
+  phantomjs_cdnurl: phantomjs
+  electron_mirror: electron
+  chromedriver_cdnurl: chromedriver
