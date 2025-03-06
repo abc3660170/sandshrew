@@ -7,6 +7,7 @@ import { PelipperConfig } from "src/types/index";
 import { resolve } from "path";
 import { createArchiveByFileExtension } from "@shockpkg/archive-files";
 import { accessSync, constants } from "fs";
+import axios from "axios";
 const nets = networkInterfaces();
 
 export const isBusy = (fastify: FastifyInstance) => {
@@ -155,4 +156,14 @@ export const xx = async (tgz: string) => {
 export const getPackageReadme = async (fastify: FastifyInstance, name: string, version: string) => {
   const tgz = getTgzFile(fastify, name, version);
   return await xx(tgz);
+}
+
+export const getDockerHubToken = async (repo: string, operate: string) => {
+   const res = await axios.get<{
+    token: string;
+    access_token: string;
+    expires_in: number;
+    issued_at: string;
+  }>(`https://auth.docker.io/token?service=registry.docker.io&scope=repository:${repo}:${operate}`);
+  return res.data;
 }

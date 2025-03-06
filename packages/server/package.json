@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --watch \"src/**/*.ts\" --exec node \"--import=./register-loader.js\" \"./src/dev.ts\"",
+    "dev:docker": "nodemon --watch \"src/**/*.ts\" --exec node \"--import=./register-loader.js\" \"./src/dev_docker.ts\"",
     "build": "rollup -c rollup.config.js",
     "start": "node start.js"
   },
@@ -29,7 +30,8 @@
     "pino-pretty": "^13.0.0",
     "rimraf": "^5.0.10",
     "semver": "^7.7.1",
-    "yaml": "^2.7.0"
+    "yaml": "^2.7.0",
+    "zx": "^8.3.2"
   },
   "devDependencies": {
     "@npm/types": "^2.0.0",
