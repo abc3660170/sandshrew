@@ -47,6 +47,16 @@ await fastify.register(fastifyStatic, {
 })
 
 export const start = async (options: UnknowRegistryConfig) => {
+  // 配置mirror镜像文件路由
+  const mirrorStorage = options.fronttype === 'pelipper' ? options.pelipper.mirrorStorage : null;
+  if(mirrorStorage) {
+      await fastify.register(fastifyStatic, {
+        root: mirrorStorage,
+        prefix: '/mirror', // optional: default
+        decorateReply: false
+    });
+  }
+  
   fastify.decorate('REGISTER_CONFIG', options as any);
   fastify.decorate('MIRROR_CONFIG', options.mirror as any);
   fastify.globalState = {
