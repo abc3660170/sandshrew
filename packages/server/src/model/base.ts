@@ -3,7 +3,7 @@ import axios from "axios";
 import { FastifyInstance } from "fastify";
 import { readdir, readFile } from "fs";
 import path from "path";
-import { RegistryConfig } from "src/types";
+import { RegistryConfig } from "@sandshrew/types";
 
 export async function getSuggestions(
   q: string,
@@ -13,7 +13,7 @@ export async function getSuggestions(
   const pkgMatcher = /[^\/]+$/.exec(q);
   const ns = nsMatcher ? nsMatcher[1] : "";
   const pkg = pkgMatcher ? pkgMatcher[0] : "";
-  const { fronttype } = fastify.REGISTER_CONFIG;
+  const { fronttype } = fastify.SANDSHREW_CONFIG;
   if (fronttype === "npmjs") {
     const response = await axios.get(
       `https://www.npmjs.com/search/suggestions?q=${q}`
@@ -21,7 +21,7 @@ export async function getSuggestions(
     return response.data;
   } else if (fronttype === "pelipper") {
     return new Promise((resolve, reject) => {
-      const conf = fastify.REGISTER_CONFIG as RegistryConfig<'pelipper'>
+      const conf = fastify.SANDSHREW_CONFIG as RegistryConfig<'pelipper'>
       if (!conf.pelipper.storage) {
         return reject(new Error("pelipper's  storage configration is empty!"));
       }
@@ -55,14 +55,14 @@ export async function getSuggestions(
 
 
 export const  getPackageDocument = async (pkgName: string,  fastify: FastifyInstance): Promise<Packument> => {
-  const { fronttype } =  fastify.REGISTER_CONFIG;
+  const { fronttype } =  fastify.SANDSHREW_CONFIG;
   if (fronttype === "npmjs") {
     const response = await axios.get(
       `https://registry.npmjs.org/${pkgName}`
     );
     return response.data;
   } else if (fronttype === "pelipper") {
-    const conf = fastify.REGISTER_CONFIG as RegistryConfig<'pelipper'>;
+    const conf = fastify.SANDSHREW_CONFIG as RegistryConfig<'pelipper'>;
     const pkg = path.resolve(conf.pelipper.storage, pkgName, "package.json");
     return new Promise((resolve, reject) => {
       readFile(pkg, "utf-8", (error, data) => {

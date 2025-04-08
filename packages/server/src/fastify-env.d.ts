@@ -1,9 +1,9 @@
 import { FastifyInstance } from 'fastify';
-import { UnknowRegistryConfig } from './types';
+import { UnknowRegistryConfig } from '@sandshrew/types';
 
 declare module 'fastify' {
   export interface FastifyInstance {
-    REGISTER_CONFIG: UnknowRegistryConfig;
+    SANDSHREW_CONFIG: UnknowRegistryConfig;
     MIRROR_CONFIG: Record<string, string>;
     globalState: {
       npmDownloading: boolean;

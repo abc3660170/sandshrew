@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readdirSync, rmSync } from "fs";
+import { existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "fs";
 import { join } from "path";
 import { cp } from "fs";
 import { readFile } from "fs/promises";
@@ -30,7 +30,12 @@ const dir = join(process.cwd(), "build");
 async function copyFiles(dir) {
   const packageJsonPath = join(process.cwd(), "packages/server/package.json");
   const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
-  const filesToCopy = [...packageJson.files, "package.json"];
+  delete packageJson.devDependencies;
+  writeFileSync(
+    join(dir, "package.json"),
+    JSON.stringify(packageJson, null, 2)
+  );
+  const filesToCopy = [...packageJson.files];
 
   filesToCopy.forEach((file) => {
     const src = join(process.cwd(), "packages/server", file);

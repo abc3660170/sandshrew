@@ -2,7 +2,7 @@
   <el-container>
     <el-main>
       <div class="uploadArea" v-show="showUploadBtn">
-        <input type="file" id="upload" @change="handleChange" accept="application/zip" />
+        <input type="file" name="file" id="upload" @change="handleChange" accept="application/zip" />
         <button @click="triggerUpload" class="uploadBtn">
           点我上传
         </button>

@@ -3,11 +3,12 @@ import npmrcRoute  from "./api/npmrc.ts";
 import npmjsRoute  from "./api/npmjs.ts";
 import pushRoute  from "./api/push.ts";
 import envRoute  from "./api/env.ts";
+import dockerRoute  from "./api/docker.ts";
 import cors from '@fastify/cors'
 import fastifyMultipart from '@fastify/multipart'
 import fastifyCompress from '@fastify/compress'
 import fastifyStatic from '@fastify/static'
-import { UnknowRegistryConfig } from "./types/index";
+import { UnknowRegistryConfig } from "@sandshrew/types";
 import { join } from "path";
 
 const fastify = Fastify({
@@ -36,7 +37,7 @@ const fastify = Fastify({
 //   return { hello: 'world' };
 // });
 await fastify.register(cors);
-await fastify.register(fastifyMultipart, { attachFieldsToBody: 'keyValues' });
+await fastify.register(fastifyMultipart);
 
 await fastify.register(fastifyCompress, { global: true, encodings: ['gzip', 'deflate'] });
 const projectRoot = process.cwd();
@@ -47,7 +48,7 @@ await fastify.register(fastifyStatic, {
 })
 
 export const start = async (options: UnknowRegistryConfig) => {
-  fastify.decorate('REGISTER_CONFIG', options as any);
+  fastify.decorate('SANDSHREW_CONFIG', options as any);
   fastify.decorate('MIRROR_CONFIG', options.mirror as any);
   fastify.globalState = {
     npmDownloading: false,
@@ -59,6 +60,7 @@ export const start = async (options: UnknowRegistryConfig) => {
   npmrcRoute(fastify, { routePrefix: '/npmrc' })
   pushRoute(fastify, { routePrefix: '/push' })
   envRoute(fastify, { routePrefix: '/env' })
+  dockerRoute(fastify, { routePrefix: '/docker' })
   return new Promise<string>((resolve, reject) => {
     fastify.listen(
       { port: app.port, host: "0.0.0.0" },

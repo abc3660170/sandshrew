@@ -8,7 +8,7 @@ export default async (
     `${options.routePrefix}/`,
     async (_, reply) => {
       try {
-        return reply.send(fastify.REGISTER_CONFIG)
+        return reply.send(fastify.SANDSHREW_CONFIG)
       } catch (error) {
         return reply.status(500).send({
           error,

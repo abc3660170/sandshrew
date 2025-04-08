@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FetchRepo, FetchRepoTags, Platform, RepoMetaData, RepoMetaGroup } from "src/types";
+import { FetchRepo, FetchRepoTags, Platform, RepoMetaData, RepoMetaGroup } from "@sandshrew/types";
 import { getDockerHubToken } from "../../utils/utils.ts";
 import { $ } from "zx";
 import { FastifyInstance } from "fastify";

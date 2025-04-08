@@ -8,7 +8,7 @@ const defaultOptions = {
   remoteSkim: "https://replicate.npmjs.com",
 };
 
-const options = Object.assign(JSON.parse(process.env.CONFIG), defaultOptions);
+const options = Object.assign(JSON.parse(process.env.SANDSHREW_CONFIG), defaultOptions);
 console.log(`================== 调用fee-local-npm${process.env.NPM_TYPE === 'pull' ? '' : '-intranet'}的参数 ==================`)
 console.log(options)
 if (process.env.NPM_TYPE === "push") {

@@ -41,3 +41,27 @@ mirror:
   phantomjs_cdnurl: phantomjs
   electron_mirror: electron
   chromedriver_cdnurl: chromedriver
+
+
+docker:
+  mode: 'dockerhub' # dockerhub or harbor
+  options: 
+     uplink: 
+       url: 'https://hub.docker.com'
+       imageUrl: 'registry-1.docker.io'
+     registerAPI: 'https://registry-1.docker.io'
+     tmp: '/volume1/homes/abc3660170/remote-development/sandshrew/tmp'
+     
+
+
+  # mode: 'harbor' # dockerhub or harbor
+  # options: 
+  #    uplink: 
+  #     url: 'http://10.0.254.1'
+  #     username: 'admin'
+  #     password: 'Njhf@1212'
+  #     imageUrl: '10.0.254.1'
+  #    harbor: 
+  #     url: 'http://10.0.254.1'
+  #     imageUrl: '10.0.254.1'
+  #    tmp: '/volume1/homes/abc3660170/remote-development/sandshrew/tmp'

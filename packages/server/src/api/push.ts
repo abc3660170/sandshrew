@@ -1,10 +1,12 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import path from "path";
 import { sync } from "rimraf";
-import fs, { mkdirSync } from "fs";
+import fs, { createWriteStream, mkdirSync } from "fs";
 import extractZip from "extract-zip";
 import { spawn, ChildProcess } from "child_process";
 import { isBusy, getEnvs, spawnWrap, getLocalNpmConfig } from "../utils/utils.ts";
+import { npmjsTmp } from "../config/config.ts";
+import { pipeline } from "stream/promises";
 let localNpmThread: ChildProcess | null = null;
 const projectRoot = process.cwd();
 
@@ -23,7 +25,7 @@ async function cutoff(fastify: FastifyInstance, options: {
 }
 
 export default async (fastify: FastifyInstance, options: { routePrefix: string }) => {
-  const tmp = fastify.REGISTER_CONFIG.tmp;
+  const tmp = `${fastify.SANDSHREW_CONFIG.tmp}/${npmjsTmp}`;
   const uploadsFolder = path.resolve(tmp, "./uploads");
   const workspace = tmp;
   let errors: string[] = [];
@@ -37,13 +39,15 @@ export default async (fastify: FastifyInstance, options: { routePrefix: string }
       return reply.status(226).send({ errors: ["有人在用，你先等等还行啊！"] });
     } else {
       fastify.globalState.npmUploding = true
-      const data = (request.body as { file: Buffer }).file;
+      const data = await request.file();
       if(!data) {
         return endReq(fastify, reply, 500, ["文件上传失败！"]);
       }
       clean(fastify, workspace);
       mkdirSync(uploadsFolder, { recursive: true });
-      const file = await writeFile(`${uploadsFolder}/upload.zip`, data)
+      const file = `${uploadsFolder}/upload.zip`
+      const writeStream = createWriteStream(file);
+      await pipeline(data.file, writeStream);
       await cleanCache();
       await restartVerdaccio();
       try {
@@ -71,14 +75,6 @@ export default async (fastify: FastifyInstance, options: { routePrefix: string }
   });
 };
 
-const writeFile = (file: string, data: Buffer): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(file, data, (err) => {
-      return err ? reject(err) : resolve(file);
-    });
-  });
-};
-
 function endReq(fastify: FastifyInstance, reply: FastifyReply, code: number, errors: string[] = []) {
   fastify.globalState.npmUploding  = false;
   return reply.send({ code, errors });
@@ -103,7 +99,7 @@ async function StartLocalNpmThread(fastify: FastifyInstance, workspace: string):
     const thread = spawn("node", ["local-npm.js"], { 
       cwd: path.resolve(projectRoot, "src/spawn"),
       env: Object.assign({}, process.env, {
-        CONFIG: JSON.stringify(getLocalNpmConfig(fastify)),
+        SANDSHREW_CONFIG: JSON.stringify(getLocalNpmConfig(fastify)),
         NPM_TYPE: 'push',
         CWD: workspace
       })
