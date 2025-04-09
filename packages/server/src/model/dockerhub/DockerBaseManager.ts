@@ -89,7 +89,14 @@ export default abstract class DockerBaseManager {
     ) {
         const [project, _] = repo.id.split("/");
         // 判断这个镜像对应的project是否存在，不存在的话先调用harbor的API创建
-        await this._createProject(harbor, project!);
+        try {
+            await this._createProject(harbor, project!);
+        } catch (error) {
+            if(error.status !== 409) {
+                throw error
+            }
+        }
+        
         await $`echo ${this.uplink.password} | docker login ${harbor.imageUrl} -u admin --password-stdin`;
         await $`docker tag ${repo.imageId} ${harbor.imageUrl}/${repo.id}:${repo.tag}-${this._platformTag(repo.platform)}`;
         await $`docker push ${harbor.imageUrl}/${repo.id}:${repo.tag}-${this._platformTag(repo.platform)}`;
