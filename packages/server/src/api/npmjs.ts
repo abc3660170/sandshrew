@@ -2,8 +2,8 @@ import { FastifyInstance } from "fastify";
 import { getSuggestions, getPackageDocument } from "../model/base.js";
 import { extractVersion, getPackageReadme, isBusy, xx } from "../utils/utils.js";
 import distill from "../model/distill.js";
-import { readFile, readFileSync } from "fs";
-import type { PackageJSON, Packument } from "@npm/types";
+import { readFileSync } from "fs";
+import type { PackageJSON } from "@npm/types";
 import { resolve } from "path";
 
 export default async (

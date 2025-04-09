@@ -54,7 +54,7 @@ const canPick = computed(() => {
   return version.value && os.value && arch.value;
 });
 
-const emit = defineEmits(['pick', 'update:modelValue']);
+const emit = defineEmits(['pick', 'model-value']);
 
 // onBeforeMount(async () => {
 //   const { fronttype } = await getEnv();
@@ -111,7 +111,7 @@ const handlePick = () => {
 };
 
 const handleReturn = () => {
-  emit("update:modelValue", null);
+  emit("model-value", null);
 };
 </script>
 

@@ -17,9 +17,6 @@
     </el-main>
     <el-footer class="footer">
       <a href="javascript:;" class="backToUpload" v-if="!showUploadBtn" @click="showUploadBtn = true">返回上传</a>
-      <router-link to="/pull">
-        去导出界面
-      </router-link>
     </el-footer>
   </el-container>
 </template>

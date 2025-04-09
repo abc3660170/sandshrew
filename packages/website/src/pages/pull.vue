@@ -46,9 +46,6 @@
         />
         <el-button type="primary" @click="triggerUpload">上传package.json</el-button>
       </div>
-      <router-link to="/push" v-if="showPushLink">
-        去导入界面
-      </router-link>
     </el-footer>
   </el-container>
 </template>
@@ -74,7 +71,6 @@ export default defineComponent({
     const detail = ref<any>(null);
     const keyword = ref('');
     const picked = ref<Set<string>>(new Set());
-    const showPushLink = ref(false);
     const uploading = ref(false);
 
     const getSuggestion = debounce(async (q: string, callback: any) => {
@@ -156,7 +152,6 @@ export default defineComponent({
 
     onMounted(async () => {
       const { fronttype } = await getEnv();
-      showPushLink.value = fronttype === 'pelipper';
       emit('title-change', 'NPM包-导出');
     });
 
@@ -167,7 +162,6 @@ export default defineComponent({
       detail,
       keyword,
       picked,
-      showPushLink,
       uploading,
       triggerUpload,
       handleChange,

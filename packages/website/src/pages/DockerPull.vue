@@ -32,6 +32,7 @@
         <docker-detail
           :value="detail"
           v-if="detail"
+          @model-value="handleReturn"
           @pick="handlePicked"
         ></docker-detail>
       </div>
@@ -46,7 +47,7 @@ import debounce from "debounce";
 import DockerDownloadList from "../components/DockerDownloadList.vue";
 import { getAxios, getEnv } from "../utils";
 import { ElNotification } from 'element-plus';
-import { DockerHubAPIRepo, Platform } from "@sandshrew/types";
+import type { DockerHubAPIRepo, Platform } from "@sandshrew/types";
 
 const list = ref<any[]>([]);
 const loading = ref(false);

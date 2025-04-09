@@ -46,8 +46,8 @@ importers:
         specifier: ^4.29.0
         version: 4.29.0
       fee-local-npm:
-        specifier: ^3.0.6
-        version: 3.0.6
+        specifier: ^3.0.7
+        version: 3.0.7
       pino-pretty:
         specifier: ^13.0.0
         version: 13.0.0
@@ -1347,6 +1347,11 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  acorn@8.14.1:
+    resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
   ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
     peerDependencies:
@@ -1782,8 +1787,8 @@ packages:
   fd-slicer@1.1.0:
     resolution: {integrity: sha512-cE1qsB/VwyQozZ+q1dGxR8LBYNZeofhEdUNGSMbQD3Gw2lAzX9Zb3uIU6Ebc/Fmyjo9AWWfnn0AUCHqtevs/8g==}
 
-  fee-local-npm@3.0.6:
-    resolution: {integrity: sha512-EaCsQO4jjbKCFyCli/dChnJn21XyCj/Cv4+T7moCDqFJD8+HBCv1FAAJXoD53fWorZEQoKaNhtyqDKrsN5ZUQg==}
+  fee-local-npm@3.0.7:
+    resolution: {integrity: sha512-sjDkXDTjmqGH1AvqPtxo/HYq4a0djMEsvndAxAs7EtWVp/dQdAEXmV5jHyWHmjTh9ZTGr09caz1EvP+bspkimw==}
     engines: {node: '>= 10'}
     hasBin: true
 
@@ -4218,6 +4223,8 @@ snapshots:
 
   acorn@8.14.0: {}
 
+  acorn@8.14.1: {}
+
   ajv-formats@2.1.1(ajv@8.17.1):
     optionalDependencies:
       ajv: 8.17.1
@@ -4770,7 +4777,7 @@ snapshots:
     dependencies:
       pend: 1.2.0
 
-  fee-local-npm@3.0.6:
+  fee-local-npm@3.0.7:
     dependencies:
       '@fastify/compress': 7.0.3
       '@fastify/cors': 9.0.1
@@ -5776,7 +5783,7 @@ snapshots:
   terser@5.39.0:
     dependencies:
       '@jridgewell/source-map': 0.3.6
-      acorn: 8.14.0
+      acorn: 8.14.1
       commander: 2.20.3
       source-map-support: 0.5.21
 

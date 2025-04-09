@@ -1,28 +1,36 @@
 <template>
-  <el-popover :width="500" class="npmrcTip" placement="bottom" title=""
-    trigger="click">
+  <el-popover :width="500" class="npmrcTip" placement="bottom" title="" trigger="click">
     <template #reference>
-      <el-icon title=".npmrc的配置" class="npmrcTip npmrcTipIcon">
+      <el-icon title="提示" class="npmrcTip npmrcTipIcon">
         <Lightning />
       </el-icon>
     </template>
-    <p>把下面的内容贴到你项目的.npmrc文件里</p>
-    <ul>
+    <div v-if="routePart === 'docker'">
+      docker镜像比较大，所以pull的时候请耐心等待
+    </div>
+    <div v-else-if="routePart === 'npmjs'">
+      <p>把下面的内容贴到你项目的.npmrc文件里</p>
+      <ul>
         <li v-for="(item, index) in configs" :key="index">
           <code>{{ item }}</code>
         </li>
       </ul>
+    </div>
+
   </el-popover>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed, getCurrentInstance } from 'vue';
 import { getAxios } from '../utils';
 
 export default defineComponent({
   name: 'Npmrc',
   setup() {
     const configs = ref<string[]>([]);
+    const app = getCurrentInstance()?.proxy!;
+
+    const routePart = computed(() => app.$route.path.split('/')[1]);
 
     onMounted(() => {
       getAxios().get('/npmrc')
@@ -35,6 +43,7 @@ export default defineComponent({
     });
 
     return {
+      routePart,
       configs
     };
   }

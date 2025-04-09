@@ -15,11 +15,11 @@ if (process.env.NPM_TYPE === "push") {
   //console.log("完善内网fee-local-npm-intranet的重构");
   //localNpmPush(options);
   //todo 完善内网fee-local-npm-intranet的重构
-  localNpm(options).then(({ start }) => {
+  localNpm({...options, method: 'push'}).then(({ start }) => {
     start();
   });
 } else if (process.env.NPM_TYPE === "pull") {
-  localNpm(options).then(({ start }) => {
+  localNpm({...options, method: 'pull'}).then(({ start }) => {
     start();
   });
 }
