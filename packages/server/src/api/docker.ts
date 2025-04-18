@@ -5,8 +5,6 @@ import { Platform } from "@sandshrew/types";
 import { pipeline } from "stream/promises";
 import { createReadStream, createWriteStream, mkdirSync, statSync } from "fs";
 import { sync } from "rimraf";
-import { uploadTar } from "src/model/dockerhub/hub.ts";
-
 export default async (
     fastify: FastifyInstance,
     options: { routePrefix: string }

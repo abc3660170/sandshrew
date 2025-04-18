@@ -107,10 +107,10 @@ export default async (
     };
   }>(`${options.routePrefix}/resolvePkg`, async (request, reply) => {
     let result: any[] = [];
-    const data = request.body.file;
+    const data = await request.file();
     const decoder = new TextDecoder("utf-8");
     try {
-      const pkg: PackageJSON = JSON.parse(decoder.decode(data));
+      const pkg: PackageJSON = JSON.parse(decoder.decode(await data!.toBuffer()));
       const dependencies = pkg.dependencies;
       const devDependencies = pkg.devDependencies;
       const mergeDeps = Object.assign({}, dependencies, devDependencies);

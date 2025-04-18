@@ -28,13 +28,13 @@ export default async (fastify: FastifyInstance, options: { routePrefix: string }
   const tmp = `${fastify.SANDSHREW_CONFIG.tmp}/${npmjsTmp}`;
   const uploadsFolder = path.resolve(tmp, "./uploads");
   const workspace = tmp;
-  let errors: string[] = [];
   fastify.get(`${options.routePrefix}/close`, async (_: FastifyRequest, reply: FastifyReply) => {
     await cutoff(fastify, {workspace});
     reply.send("shutdown force!");
   });   
 
   fastify.post(`${options.routePrefix}/upload`, async (request: FastifyRequest, reply: FastifyReply) => {
+    let errors: string[] = [];
     if (isBusy(fastify)) {
       return reply.status(226).send({ errors: ["有人在用，你先等等还行啊！"] });
     } else {
