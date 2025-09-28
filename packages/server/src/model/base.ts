@@ -16,9 +16,9 @@ export async function getSuggestions(
   const { fronttype } = fastify.SANDSHREW_CONFIG;
   if (fronttype === "npmjs") {
     const response = await axios.get(
-      `https://www.npmjs.com/search/suggestions?q=${q}`
+      `https://registry.npmjs.org/-/v1/search?text=${q}`
     );
-    return response.data;
+    return response.data.objects.map((obj: any) => obj.package);
   } else if (fronttype === "pelipper") {
     return new Promise((resolve, reject) => {
       const conf = fastify.SANDSHREW_CONFIG as RegistryConfig<'pelipper'>
