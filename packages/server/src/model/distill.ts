@@ -7,6 +7,7 @@ import MyError from "../utils/MyError.ts";
 import errorCode from "../utils/errorCode.ts";
 import fs, { readFileSync } from "fs";
 import { rimraf } from "rimraf";
+import { npmjsTmp } from "../config/config.ts";
 const npm = getNPMCommand();
 const projectRoot = process.cwd();
 
@@ -28,7 +29,7 @@ export default async (fastify: FastifyInstance, packageArr: string[]) => {
     }
     
     // 初始化临时文件夹
-    const workspace = fastify.REGISTER_CONFIG.tmp;
+    const workspace = `${fastify.SANDSHREW_CONFIG.tmp}/${npmjsTmp}`;
     await rimraf(workspace);
     fs.mkdirSync(workspace, { recursive: true})
     // 启动local-npm收集服务器
@@ -65,7 +66,7 @@ function startLocalNpm(fastify: FastifyInstance, cwd: string ) {
     cwd: resolve(projectRoot, "src/spawn"),
     env: Object.assign({}, process.env, {
       NPM_TYPE: 'pull',
-      CONFIG: JSON.stringify(getLocalNpmConfig(fastify)),
+      SANDSHREW_CONFIG: JSON.stringify(getLocalNpmConfig(fastify)),
       CWD: cwd
     })
   });

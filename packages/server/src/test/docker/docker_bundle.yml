@@ -1,0 +1,16 @@
+name: docker-image测试下载
+description: docker-image测试下载
+hub: docker.io
+pacages:
+  - name: nginx
+    id: library/nginx
+    imageid: 85Df2124d1a4
+    version: 1.21.5
+    platform: linux/amd64
+    digest: sha256:ba1c9e42ae32f7688ee7631cfefd0e4ae8e1ec39ffbe7b313128e1981b943915
+  - name: nginx
+    id: library/nginx
+    imageid: 85Df2124b1a4
+    version: 1.21.5
+    platform: linux/arm64
+    digest: sha256:c2950a70e773cc9c7135930354dc8fe1b4a25ceeaa70b8ccb2e469ca31a8d0a7

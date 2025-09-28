@@ -3,10 +3,11 @@ import { ChildProcessWithoutNullStreams, spawn } from "child_process";
 import { FastifyInstance } from "fastify";
 import { networkInterfaces } from "os";
 import { getPackageDocument } from "../model/base.ts";
-import { PelipperConfig } from "src/types/index";
+import { PelipperConfig } from "@sandshrew/types";
 import { resolve } from "path";
 import { createArchiveByFileExtension } from "@shockpkg/archive-files";
 import { accessSync, constants } from "fs";
+import axios from "axios";
 const nets = networkInterfaces();
 
 export const isBusy = (fastify: FastifyInstance) => {
@@ -32,7 +33,7 @@ const _getLocalIPv4Address = () => {
 }
 
 const _getLocalNpmConfig = (fastify: FastifyInstance) => {
-  const entireConfig = fastify.REGISTER_CONFIG;
+  const entireConfig = fastify.SANDSHREW_CONFIG;
   const from = entireConfig.fronttype;
   const config = from === 'npmjs' ? entireConfig.npmjs : entireConfig.pelipper;
   const url = `http://${_getLocalIPv4Address()}:${config.port}`;
@@ -53,7 +54,7 @@ export const getEnvs = (fastify: FastifyInstance, type: 'pull' | 'push') => {
     if (Object.prototype.hasOwnProperty.call(binaryHosts, key)) {
       let host = mirrorPath;
       if (!/^http/.test(mirrorPath)) {
-        host = `http://${_getLocalIPv4Address()}:${fastify.REGISTER_CONFIG.app.port}${mirrorPath}`;
+        host = `http://${_getLocalIPv4Address()}:${fastify.SANDSHREW_CONFIG.app.port}${mirrorPath}`;
       }
       const binaryHost = `${host}/${binaryHosts[key]}`;
       result.push(`--${key}=${binaryHost}`);
@@ -156,3 +157,22 @@ export const getPackageReadme = async (fastify: FastifyInstance, name: string, v
   const tgz = getTgzFile(fastify, name, version);
   return await xx(tgz);
 }
+
+export const getDockerHubToken = async (repo: string, operate: string) => {
+   const res = await axios.get<{
+    token: string;
+    access_token: string;
+    expires_in: number;
+    issued_at: string;
+  }>(`https://auth.docker.io/token?service=registry.docker.io&scope=repository:${repo}:${operate}`);
+  return res.data;
+}
+
+// export const getAxios = () => {
+//   return axios.create({
+//     auth: {
+//       username: 'token',
+//       password: 'ghp_7gJ7d6fXy4x3j0Q9v1z2b5i3e1a4cE2k8q4t',
+//     }
+//   })
+// }

@@ -2,7 +2,7 @@
   <el-container>
     <el-main>
       <div class="uploadArea" v-show="showUploadBtn">
-        <input type="file" id="upload" @change="handleChange" accept="application/zip" />
+        <input type="file" name="file" id="upload" @change="handleChange" accept="application/zip" />
         <button @click="triggerUpload" class="uploadBtn">
           点我上传
         </button>
@@ -17,9 +17,6 @@
     </el-main>
     <el-footer class="footer">
       <a href="javascript:;" class="backToUpload" v-if="!showUploadBtn" @click="showUploadBtn = true">返回上传</a>
-      <router-link to="/pull">
-        去导出界面
-      </router-link>
     </el-footer>
   </el-container>
 </template>

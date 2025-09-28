@@ -1,5 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import Pull from '../pages/pull.vue';
+import DockerPull from '../pages/DockerPull.vue';
+import DockerPush from '../pages/DockerPush.vue';
 import Push from '../pages/push.vue';
 import { getEnv } from '../utils';
 
@@ -16,21 +18,31 @@ const routes: Array<RouteRecordRaw> = [
         beforeEnter: async (_, __, next) => {
             const data: EnvData = await getEnv();
             if (data.fronttype === 'pelipper') {
-                next({ path: '/push' });
+                next({ path: '/npmjs/push' });
             } else {
-                next({ path: '/pull' });
+                next({ path: '/npmjs/pull' });
             }
         },
     },
     {
-        path: '/push',
-        name: 'push',
+        path: '/npmjs/push',
+        name: 'npmjspush',
         component: Push
     },
     {
-        path: '/pull',
-        name: 'pull',
+        path: '/npmjs/pull',
+        name: 'npmjspull',
         component: Pull
+    },
+    {
+        path: '/docker/pull',
+        name: 'dockerpull',
+        component: DockerPull
+    },
+    {
+        path: '/docker/push',
+        name: 'dockerpush',
+        component: DockerPush
     }
 ];
 
